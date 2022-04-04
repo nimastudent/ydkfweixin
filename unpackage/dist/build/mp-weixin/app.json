@@ -1,7 +1,12 @@
 {
   "pages": [
+    "pages/state/state",
+    "pages/index/index",
     "pages/auth/login",
-    "pages/index/index"
+    "pages/test/test",
+    "pages/sport/sport",
+    "pages/food/food",
+    "pages/user/user"
   ],
   "subPackages": [],
   "window": {
@@ -10,5 +15,36 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
-  "usingComponents": {}
+  "tabBar": {
+    "color": "#2c2c2c",
+    "selectedColor": "#007aff",
+    "list": [
+      {
+        "pagePath": "pages/state/state",
+        "text": "状态",
+        "iconPath": "static/tabarImg/state.png",
+        "selectedIconPath": "static/tabarImg/state_chiosed.png"
+      },
+      {
+        "pagePath": "pages/sport/sport",
+        "text": "运动",
+        "iconPath": "static/tabarImg/sport.png",
+        "selectedIconPath": "static/tabarImg/sports_chiosed.png"
+      },
+      {
+        "pagePath": "pages/food/food",
+        "text": "饮食",
+        "iconPath": "static/tabarImg/food.png",
+        "selectedIconPath": "static/tabarImg/food_chiosed.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "个人",
+        "iconPath": "static/tabarImg/user.png",
+        "selectedIconPath": "static/tabarImg/user_chiosed.png"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
 }
