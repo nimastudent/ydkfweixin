@@ -16,4 +16,5 @@
 	/*每个页面公共css */
 	@import './colorui/main.css';
 	@import './colorui/icon.css';
+    @import "@/uni_modules/uview-ui/index.scss";
 </style>

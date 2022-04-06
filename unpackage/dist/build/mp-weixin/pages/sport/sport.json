@@ -1,5 +1,7 @@
 {
   "navigationBarTitleText": "运动",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "usingComponents": {
+    "u-divider": "/uni_modules/uview-ui/components/u-divider/u-divider"
+  }
 }

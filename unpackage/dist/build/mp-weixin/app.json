@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/auth/login",
     "pages/state/state",
     "pages/index/index",
-    "pages/auth/login",
     "pages/test/test",
     "pages/sport/sport",
     "pages/food/food",
@@ -45,6 +45,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }
