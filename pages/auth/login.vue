@@ -12,20 +12,25 @@
                 <button type="default" @click="getUserInfo" withCredentials="true">获取用户信息</button>
                 <button type="default" open-type="getPhoneNumber">获取手机号</button>
                 <button open-type="getPhoneNumber" @getphonenumber="onGetPhoneNumber" withCredentials="true">唤起授权</button>
+				<button type="default" @click="postData">postData</button>
             </view>
         </view>
     </view>
 </template>
 
 <script>
+	import {postUserCode}  from '../../api/auth.js'
     export default {
         data() {
             return {
-
+			code:'',
+			nickName:'',
+			avatarUrl:''
             }
         },
         methods: {
             submit() {
+				const _this = this
                 uni.login({
                     provider: 'weixin',
                     timeout: 3000,
@@ -35,12 +40,14 @@
                             key: 'weixinCode',
                             value: res.code,
                         })
+						console.log(res)
+						_this.code = res.code
                         
                          uni.getUserInfo({
                               provider: 'weixin',
                               success: function (infoRes) {
                                   console.log(infoRes)
-                                console.log('用户昵称为：' + infoRes.userInfo.nickName);
+                                console.log('用户昵称为：' + infoRes.code);
                               }
                             });
                     },
@@ -50,10 +57,14 @@
                 })
             },
             getUserInfo() {
+				const _this = this
                 uni.getUserProfile({
+					lang: 'zh_CN',
                     desc: '获取用户信息',
-                    success: (userInfo) => {
-                        console.log(userInfo)
+                    success: (res) => {
+                        console.log(res)
+						_this.nickName = res.userInfo.nickName
+						_this.avatarUrl = res.userInfo.avatarUrl
                     },
                     fail:(err)=>{
                         console.log(err)
@@ -70,7 +81,27 @@
                 uni.switchTab({
                     url:'/pages/state/state'
                 })
-            }
+            },
+			postData(){
+				
+				let data = {
+					code:this.code,
+					nickName:this.nickName,
+					avatarUrl:this.avatarUrl
+				}
+				console.log(data)
+				postUserCode(data).then(res => {
+					if(res.success){
+						uni.setStorage({
+							key:'token',
+							value:res.body.token,
+							success: () => {
+								console.log("token存储成功")
+							}
+						})
+					}
+				})
+			}
         }
     }
 </script>

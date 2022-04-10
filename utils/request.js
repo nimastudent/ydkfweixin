@@ -17,6 +17,12 @@ module.exports = (vm) => {
 			// 可以在此通过vm引用vuex中的变量，具体值在vm.$store.state中
 			config.header.token = vm.$store.state.userInfo.token
 		}
+		
+		if(config.url === 'weChat/login'){
+			return
+		}else{
+			config.header['token'] = uni.getStorageInfoSync('')
+		}
 	    return config 
 	}, config => { // 可使用async await 做异步操作
 	    return Promise.reject(config)

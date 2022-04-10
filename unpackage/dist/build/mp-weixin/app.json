@@ -6,7 +6,8 @@
     "pages/test/test",
     "pages/sport/sport",
     "pages/food/food",
-    "pages/user/user"
+    "pages/user/user",
+    "pages/sport/sprotDetail"
   ],
   "subPackages": [],
   "window": {
