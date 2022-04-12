@@ -1,10 +1,7 @@
 <template>
 	<view>
 		<view class="flex justify-between ">
-			<view class="">
-				left
-			</view>
-			<view>right</view>
+			<button type="default" @click="goHealthAssess">健康测评</button>
 		</view>
 	</view>
 </template>
@@ -15,6 +12,11 @@
 			return {
 				
 			};
+		},
+		methods:{
+			goHealthAssess(){
+				this.$u.route('/pages/state/healthAssess')
+			}
 		}
 	}
 </script>

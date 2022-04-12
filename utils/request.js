@@ -18,6 +18,11 @@ module.exports = (vm) => {
 			config.header.token = vm.$store.state.userInfo.token
 		}
 		
+		if(config.url === 'user/login'){
+			console.log("更改header")
+			config.header['Content-Type'] = 'application/x-www-form-urlencoded'
+		}
+		
 		if(config.url === 'weChat/login'){
 			return
 		}else{

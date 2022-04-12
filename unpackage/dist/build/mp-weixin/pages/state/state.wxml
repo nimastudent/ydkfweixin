@@ -1,1 +1,1 @@
-<view><view class="flex justify-between "><view>left</view><view>right</view></view></view>
+<view><view class="flex justify-between "><button type="default" data-event-opts="{{[['tap',[['goHealthAssess',['$event']]]]]}}" bindtap="__e">健康测评</button></view></view>

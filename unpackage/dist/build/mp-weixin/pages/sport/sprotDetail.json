@@ -1,5 +1,9 @@
 {
   "navigationBarTitleText": "",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "usingComponents": {
+    "mp-html": "/uni_modules/mp-html/components/mp-html/mp-html",
+    "u--textarea": "/uni_modules/uview-ui/components/u--textarea/u--textarea",
+    "l-file": "/uni_modules/l-file/components/l-file/l-file"
+  }
 }

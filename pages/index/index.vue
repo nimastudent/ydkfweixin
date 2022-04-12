@@ -4,14 +4,7 @@
 		<view class="text-area">
 			<text class="title">{{title}}</text>
 		</view>
-		<view class="flex justify-between">
-			<view class="">
-				左边
-			</view>
-			<view class="">
-				右边
-			</view>
-		</view>
+		
 	</view>
 </template>
 

@@ -7,7 +7,8 @@
     "pages/sport/sport",
     "pages/food/food",
     "pages/user/user",
-    "pages/sport/sprotDetail"
+    "pages/sport/sprotDetail",
+    "pages/state/healthAssess"
   ],
   "subPackages": [],
   "window": {
@@ -46,5 +47,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
 }

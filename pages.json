@@ -73,6 +73,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/state/healthAssess",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
     "globalStyle": {
         "navigationBarTextStyle": "black",

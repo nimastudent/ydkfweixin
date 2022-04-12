@@ -2,7 +2,7 @@
     <view class="bg">
         <view class="withe-container">
             <view class="form-container">
-                <view class="denglu color-1129">登录</view>
+                <view class="denglu color-1129" >登录</view>
                 <view class="dianhua color-b2b">
                     输入电话号码登录
                 </view>
@@ -13,13 +13,14 @@
                 <button type="default" open-type="getPhoneNumber">获取手机号</button>
                 <button open-type="getPhoneNumber" @getphonenumber="onGetPhoneNumber" withCredentials="true">唤起授权</button>
 				<button type="default" @click="postData">postData</button>
+				<button type="default" @click="normalLogin">normalLogin</button>
             </view>
         </view>
     </view>
 </template>
 
 <script>
-	import {postUserCode}  from '../../api/auth.js'
+	import {postUserCode,login}  from '../../api/auth.js'
     export default {
         data() {
             return {
@@ -100,6 +101,12 @@
 							}
 						})
 					}
+				})
+			},
+			normalLogin(){
+				let obj = {telephone:"101",password:"123456"}
+				login(obj).then(res => {
+					console.log(res)
 				})
 			}
         }
