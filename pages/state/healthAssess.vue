@@ -19,7 +19,7 @@
 
 		<view>
 
-			<u-collapse @change="change" @close="close" @open="open">
+			<u-collapse>
 				<u-collapse-item title="身体指标" name="Docs guide">
 					<u-cell-group>
 						<u-cell title="身高(cm)">180</u-cell>
@@ -52,12 +52,21 @@
 					</u-cell-group>
 
 				</u-collapse-item>
-				<!-- <u-collapse-item title="组件全面" name="Variety components">
-					
-					
-				</u-collapse-item> -->
+				<u-collapse-item v-for="(item,index) in typeList" :key="index"  :title="item['title']" >
+					<u-cell-group>
+						<u-cell v-for="(pitem,pindex) in item['params']" :key='pitem.name' :title="pitem.name">
+							<view class="flex " slot="value">
+								<u-tag v-if="pitem['tags']" :text="pitem.tags" plain size="mini" ></u-tag>
+								<button type="default" v-if="pitem['isFile']" size="mini" @click="handleCheckFile(pitem)">查看文件</button>
+								<text class="margin-left-sm" v-else="!pitem['isFile']">{{pitem.value}}</text>
+							</view>
+						</u-cell>
+					</u-cell-group>
+				</u-collapse-item>
 				
 			</u-collapse>
+			
+			<!-- <text v-for="(item,index) in typeList" :key="index">{{item}}{{index}}</text> -->
 
 		</view>
 
@@ -65,16 +74,33 @@
 </template>
 
 <script>
+	import {getAllType,getUserHealth} from '../../api/healthAssess.js'
 	export default {
 		data() {
 			return {
-
+				typeList:[]
 			};
 		},
+		onLoad() {
+			this.getUserHealthInfo()
+		},
 		methods:{
-			handleSelectImg(){
+			// 获取所有type
+			async getTypeList() {
+				const res = await getAllType()
+				this.typeList = res
+				console.log(res)
+			},
+			async getUserHealthInfo() {
+				const res = await getUserHealth()
+				this.typeList = res
+				console.log(res)
+			},
+			
+			
+			handleSelectImg(url){
 				uni.downloadFile({
-						url: 'http://47.98.120.130:8080/api/upload/actionPicture/1649559321220.jpg',//下载地址接口返回
+						url,//下载地址接口返回
 						success: (data) => {
 							console.log(data)
 							if (data.statusCode === 200) {
@@ -110,6 +136,10 @@
 							});
 						},
 					});
+			},
+			handleCheckFile(item){
+				console.log(item)
+				this.handleSelectImg(item.value)
 			}
 		}
 	}

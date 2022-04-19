@@ -107,6 +107,8 @@
 				let obj = {telephone:"101",password:"123456"}
 				login(obj).then(res => {
 					console.log(res)
+					uni.setStorageSync('token', res['JSESSIONID']);
+					
 				})
 			}
         }

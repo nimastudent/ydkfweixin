@@ -19,14 +19,14 @@ module.exports = (vm) => {
 		}
 		
 		if(config.url === 'user/login'){
-			console.log("更改header")
 			config.header['Content-Type'] = 'application/x-www-form-urlencoded'
 		}
 		
 		if(config.url === 'weChat/login'){
 			return
 		}else{
-			config.header['token'] = uni.getStorageInfoSync('')
+			console.log(uni.getStorageSync('token'))
+			config.header['token'] = uni.getStorageSync('token')
 		}
 	    return config 
 	}, config => { // 可使用async await 做异步操作

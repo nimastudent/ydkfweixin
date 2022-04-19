@@ -114,9 +114,10 @@ export default {
 			// #endif
 		},
 		wxChooseFile({maxSize = 10,...param}) {
+			console.log("进入微信调试工具")
 			wx.chooseMessageFile({
 				count: 1,
-				type: 'file',
+				// type: 'all',
 				success: ({tempFiles}) => {
 					this.setdefUI();
 					let file = tempFiles[0];
