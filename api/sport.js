@@ -9,3 +9,6 @@ export const gerNameByType = (params) => http.get('/action/getName',params)
 
 // 根据运动处方的名称获取具体的运动处方
 export const getChuFangByName = (params) => http.get('/action/getPrescribe',params)
+
+// 根据运动处方的id返回具体的信息
+export const getChuFangById = (params) => http.get('/action/getById',params)

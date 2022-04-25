@@ -7,11 +7,29 @@
 					<view class="margin-bottom-sm ">
 						{{item}}
 					</view>
-					<view class="grid">
+					<view class="grid" v-if="item === '有氧运动'">
+						
 
-						<view :class="['text-xl','text-center','sportText']" hover-class="sportTextClick"
+						<view
 							v-for="(item,index) in youyangList" :key="index" @click="handleSportClick(item)">
-							{{item}}
+							<!-- {{item.name}} -->
+								<image class="sport-image" v-if="item.picture" :src="item.picture" mode=""></image>
+						</view>
+					</view>
+					
+					<view class="grid" v-if="item === '柔韧训练'">
+					
+						<view :class="['text-xl','text-center','sportText']" hover-class="sportTextClick"
+							v-for="(item,index) in rourenList" :key="index" @click="handleSportClick(item)">
+							{{item.name}}
+						</view>
+					</view>
+					
+					<view class="grid" v-if="item === '抗阻训练'">
+					
+						<view :class="['text-xl','text-center','sportText']" hover-class="sportTextClick"
+							v-for="(item,index) in kangzuList" :key="index" @click="handleSportClick(item)">
+							{{item.name}}
 						</view>
 					</view>
 					<u-divider></u-divider>
@@ -33,11 +51,13 @@
 		data() {
 			return {
 				typeList: ['有氧运动', '柔韧训练', '抗阻训练'],
-				youyangList: ['跳绳', '健康跑', '跳绳', '健康跑']
+				youyangList: [],
+				rourenList: [],
+				kangzuList: []
 			};
 		},
 		onLoad() {
-			this.getName()
+			this.getTypeList()
 		},
 		methods: {
 			// 获取运动类型
@@ -46,24 +66,33 @@
 				console.log(res)
 				if (res) {
 					this.typeList = res['type']
-					// console.log(res.body.type)
+				}
+				for (let item in this.typeList) {
+					this.getName(this.typeList[item])
 				}
 			},
-			async getName() {
+			async getName(type) {
 				const res = await gerNameByType({
 					params: {
-						type: '有氧运动'
+						type
 					}
 				})
 				if (res) {
-
+					console.log(res)
+					if(type === '有氧运动'){
+						this.youyangList = res.name
+					}else if(type === '柔韧训练'){
+						this.rourenList = res.name
+					}else if(type === '抗阻训练'){
+						this.kangzuList = res.name
+					}
 				}
 			},
 			// 处理单击运动
 			handleSportClick(item) {
 				console.log(item)
 				uni.navigateTo({
-					url: '/pages/sport/sprotDetail?item=' + item,
+					url: '/pages/sport/sprotDetail?item=' + item.name,
 				})
 			}
 		}
@@ -72,10 +101,10 @@
 
 <style lang="scss" scoped>
 	.sportText {
-		width: 45vw;
-		height: 15vh;
-		line-height: 15vh;
-		margin: 4upx;
+		width: 80vw;
+		height: 20vh;
+		line-height: 20vh;
+		// margin: 0 auto;
 		color: #F0F0F0;
 		background-color: #007aff;
 		border-radius: 20upx;
@@ -88,5 +117,14 @@
 
 	.type-text {
 		font-size: 56upx;
+	}
+	
+	.sport-image{
+		width: 80vw;
+		height: 30vh;
+		display: inline-block;
+		    border: 1px solid #ddd;
+		    border-radius: 4px;
+		    padding: 5px;
 	}
 </style>

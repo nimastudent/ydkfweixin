@@ -39,7 +39,8 @@
 
 <script>
 	import {
-		getChuFangByName
+		getChuFangByName,
+		getChuFangById
 	} from '../../api/sport.js'
 	export default {
 		data() {
@@ -57,17 +58,23 @@
 		},
 		onLoad(e) {
 			this.name = e.item
-			this.getContent()
+			this.getChuFang()
 		},
 		methods: {
-			async getContent() {
+			async getChuFang() {
 				let params = {
 					name: this.name
 				}
 				const res = await getChuFangByName({
 					params
 				})
-				console.log(res)
+				if(res){
+					this.getContent(res[0].id)
+				}
+			},
+			async getContent(id){
+				const res = await getChuFangById({params:{id}})
+				this.contentObj = res
 			},
 			upload() {
 				this.$refs.lFile.upload({
