@@ -115,7 +115,7 @@ export default {
 		},
 		wxChooseFile({maxSize = 10,...param}) {
 			console.log("进入微信调试工具")
-			wx.chooseMessageFile({
+			wx.chooseImage({
 				count: 1,
 				// type: 'all',
 				success: ({tempFiles}) => {

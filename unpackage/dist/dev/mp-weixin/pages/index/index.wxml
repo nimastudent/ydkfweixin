@@ -1,1 +1,0 @@
-<view class="content flex"><image class="logo" src="/static/logo.png"></image><view class="text-area"><text class="title">{{title}}</text></view><view class="flex justify-between"><view>左边</view><view>右边</view></view></view>

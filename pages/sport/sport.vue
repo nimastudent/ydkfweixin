@@ -24,7 +24,7 @@
                                 <text class="font-max">{{item.name}}</text>
                             </view>
 
-                            <view  :class="['text-xl','text-center','sportText']">
+                            <view v-else  :class="['text-xl','text-center','sportText','finished']">
                                 <text class="font-max">已完成
                                 </text>
                             </view>
@@ -41,6 +41,11 @@
                                 {{item.name}}
                             </view>
                         </view>
+						
+						<view   :class="['text-xl','text-center','sportText','finished']">
+						    <text class="font-max">已完成
+						    </text>
+						</view>
                     </view>
 
                     <view class="grid" v-if="item === '抗阻训练'">
@@ -154,4 +159,8 @@
         top: 35%;
         left: 35%;
     }
+	
+	.finished{
+		background-color: #555555;
+	}
 </style>

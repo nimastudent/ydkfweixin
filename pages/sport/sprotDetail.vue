@@ -17,7 +17,11 @@
 			<mp-html :content="content"></mp-html>
 		</view>
 		
+		<view class="">
+			<button type="primary" @click="finished" >我已完成</button>
+		</view>
 		<view class="margin-top-xl">
+			
 			<text>用户反馈：</text>
 			<u--textarea v-model="pecent" placeholder="请输入内容" count ></u--textarea>
 		</view>
@@ -32,7 +36,7 @@
 		</view>
 		
 		<view class="margin-top-sm">
-			<button type="default">提交</button>
+			<button type="primary">提交</button>
 		</view>
 	</view>
 </template>
@@ -57,6 +61,7 @@
 			};
 		},
 		onLoad(e) {
+			console.log(e)
 			this.name = e.item
 			this.getChuFang()
 		},
@@ -87,11 +92,14 @@
 					},
 					aid:1,
 					content:'pc测试'
-					
 				})
 			},
 			upSuccess(res){
 				console.log(res)
+			},
+			finished(){
+				uni.navigateBack({
+				})
 			}
 		}
 	}
