@@ -1,19 +1,19 @@
 <template>
 	<view>
 
-
+		<u-loading-page :loading="loadingPage"></u-loading-page>
 		<view>
 			<u-collapse>
-				
+
 				<!-- 测试开始======================================== -->
-				<u-collapse-item title="身体指标" name="Docs guide">
+				<!-- <u-collapse-item title="身体指标" name="Docs guide">
 					<text slot="title" class="title-style">身体指标</text>
 					<u-cell-group>
 						<u-cell title="身高(cm)">180</u-cell>
 						<u-cell title="体重(kg)">
 							<view class="flex" slot="value">
 
-								<text class="margin-left-sm font-34">65</text>
+								<text class="margin-left-sm">65</text>
 							</view>
 						</u-cell>
 
@@ -38,21 +38,22 @@
 						</u-cell>
 					</u-cell-group>
 
-				</u-collapse-item>
+				</u-collapse-item> -->
 				<!-- 测试结束======================================================= -->
-				
-				<u-collapse-item v-for="(item,index) in typeList" :key="index" :index="index">
-					
-					<!-- 该为title “一般调查” -->
-					<text slot="title" class="title-style">{{item['title']}}</text>
+
+				<u-collapse-item v-for="(item,index) in typeList" :key="index" :title="item['title']">
+
+
 					<u-cell-group>
 						<u-cell v-for="(pitem,pindex) in item['params']" :key='pitem.name'>
-							
+
 							<!-- 该为 “家族病史” -->
+							<!-- 标题插槽 -->
 							<view slot="title" class="p-title-style">
-								<text class="">{{pitem.name}}</text>
+								<text>{{pitem.name}}</text>
 							</view>
-							
+
+							<!-- 内容插槽 -->
 							<view class="flex collapse-item" slot="value">
 								<u-tag v-if="pitem['tags']" :text="pitem.tags" plain size="large"></u-tag>
 								<button type="default" v-if="pitem['isFile']" size="large"
@@ -88,7 +89,8 @@
 					fontSize: '20px',
 					fontWeight: 500,
 					color: '#ff08b5'
-				}
+				},
+				loadingPage: true
 			};
 		},
 		onLoad() {
@@ -104,6 +106,7 @@
 			async getUserHealthInfo() {
 				const res = await getUserHealth()
 				this.typeList = res
+				this.loadingPage = false
 				console.log(res)
 			},
 
@@ -156,7 +159,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.title-style {
+	.atitle-style {
 		margin: 10rpx;
 		font-size: 40rpx;
 		letter-spacing: 6rpx;
@@ -168,8 +171,8 @@
 		letter-spacing: 4rpx;
 		padding-bottom: 10px;
 	}
-	
-	.p-title-style{
+
+	.p-title-style {
 		font-size: 35rpx;
 		letter-spacing: 4rpx;
 	}

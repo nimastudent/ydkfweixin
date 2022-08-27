@@ -1,0 +1,23 @@
+{
+  "id": "3518891",
+  "name": "no name",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11488209",
+      "name": "vip",
+      "font_class": "vip",
+      "unicode": "e773",
+      "unicode_decimal": 59251
+    },
+    {
+      "icon_id": "19604215",
+      "name": "medical-personnel-doctor",
+      "font_class": "medical-personnel-doctor",
+      "unicode": "e69f",
+      "unicode_decimal": 59039
+    }
+  ]
+}

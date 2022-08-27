@@ -29,6 +29,9 @@
 			avatarUrl:''
             }
         },
+		onLoad() {
+			this.normalLogin()
+		},
         methods: {
             submit() {
 				const _this = this
@@ -106,9 +109,10 @@
 			normalLogin(){
 				let obj = {telephone:"101",password:"123456"}
 				login(obj).then(res => {
-					console.log(res)
 					uni.setStorageSync('token', res['JSESSIONID']);
-					
+					uni.switchTab({
+					    url:'/pages/state/state'
+					})
 				})
 			}
         }

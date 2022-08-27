@@ -16,14 +16,14 @@
 		<view class="flex justify-center margin-top-sm">
 			<mp-html :content="content"></mp-html>
 		</view>
-		
+
 		<view class="">
-			<button type="primary" @click="finished" >我已完成</button>
+			<button type="primary" @click="finished">我已完成</button>
 		</view>
 		<view class="margin-top-xl">
-			
+
 			<text>用户反馈：</text>
-			<u--textarea v-model="pecent" placeholder="请输入内容" count ></u--textarea>
+			<u--textarea v-model="pecent" placeholder="请输入内容" count></u--textarea>
 		</view>
 
 
@@ -34,10 +34,16 @@
 		<view class="margin-top-sm">
 			<button type="default" @click="upload">视频/图片上传</button>
 		</view>
-		
+
 		<view class="margin-top-sm">
 			<button type="primary">提交</button>
 		</view>
+
+		<u-modal :show="modalInfo.show" :title="title" 
+			:confirmText="modalInfo.confiromText" :cancelText="modalInfo.cancelText" :showCancelButton="true"
+			:buttonReverse="true" @confirm="handleModalCancle" @cancel="handleUpload">
+			<text class="font-34">{{modalInfo.content}}</text>
+			</u-modal>
 	</view>
 </template>
 
@@ -58,6 +64,12 @@
 					date: '2022-03-17'
 				},
 				pecent: '',
+				modalInfo: {
+					show: false,
+					content: '请确认是否需要填写反馈',
+					confiromText: '填写',
+					cancelText: '不填写'
+				}
 			};
 		},
 		onLoad(e) {
@@ -73,33 +85,41 @@
 				const res = await getChuFangByName({
 					params
 				})
-				if(res){
+				if (res) {
 					this.getContent(res[0].id)
 				}
 			},
-			async getContent(id){
-				const res = await getChuFangById({params:{id}})
+			async getContent(id) {
+				const res = await getChuFangById({
+					params: {
+						id
+					}
+				})
 				this.contentObj = res
 			},
 			upload() {
-				this.$refs.lFile.upload({
-					//替换为你的上传接口地址
-					url: 'http://47.98.120.130:8080/action/report',
-					// 服务端接收附件的key
-					name: 'files',
-					//根据你接口需求自定义 (优先不传content-type,安卓端无法收到参数再传)
-					header: {
-					},
-					aid:1,
-					content:'pc测试'
-				})
+				this.modalInfo.show = true
+
+				// this.$refs.lFile.upload({
+				// 	//替换为你的上传接口地址
+				// 	url: 'http://47.98.120.130:8080/action/report',
+				// 	// 服务端接收附件的key
+				// 	name: 'files',
+				// 	//根据你接口需求自定义 (优先不传content-type,安卓端无法收到参数再传)
+				// 	header: {
+				// 	},
+				// 	aid:1,
+				// 	content:'pc测试'
+				// })
 			},
-			upSuccess(res){
+			upSuccess(res) {
 				console.log(res)
 			},
-			finished(){
-				uni.navigateBack({
-				})
+			finished() {
+				uni.navigateBack({})
+			},
+			handleModalCancle() {
+				this.modalInfo.show = false
 			}
 		}
 	}

@@ -77,6 +77,24 @@
             "path" : "pages/state/healthAssess",
             "style" :                                                                                    
             {
+                "navigationBarTitleText": "健康测评",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/state/healthReport",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "健康汇报",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/chat/chat",
+            "style" :                                                                                    
+            {
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }

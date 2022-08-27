@@ -10,13 +10,14 @@
 		</view>
 		<view class="center-list">
 			<view class="center-list-item border-bottom">
-				<text class="list-icon">&#xe60f;</text>
-				<text class="list-text">帐号管理</text>
+				<!-- <text class="list-icon">&#xe60f;</text> -->
+				<span class="list-icon font-34 iconfont icon-vip"></span>
+				<text class="list-text">会员信息</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-			<view class="center-list-item">
+			<view class="center-list-item" @click="goChat">
 				<text class="list-icon">&#xe639;</text>
-				<text class="list-text">新消息通知</text>
+				<text class="list-text">医师互动</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 		</view>
@@ -39,6 +40,7 @@
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 		</view>
+		
 	</view>
 </template>
 
@@ -67,6 +69,11 @@
 					if(res){
 						this.uerInfo = res
 					}
+				})
+			},
+			goChat(){
+				uni.navigateTo({
+					url:'/pages/user/chat/chat'
 				})
 			}
 		}
@@ -99,7 +106,7 @@
 		height: 240upx;
 		padding: 20upx;
 		box-sizing: border-box;
-		background-color: #007aff;
+		/* background-color: #007aff; */
 		flex-direction: row;
 		align-items: center;
 	}
@@ -127,12 +134,12 @@
 		height: 60upx;
 		line-height: 60upx;
 		font-size: 38upx;
-		color: #FFFFFF;
+		color: #000;
 	}
 
 	.go-login.navigat-arrow {
 		font-size: 38upx;
-		color: #FFFFFF;
+		color: #000;
 	}
 
 	.login-title {

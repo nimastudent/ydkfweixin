@@ -1,0 +1,29 @@
+.health-contianer.data-v-29f45eb2 {
+  margin-top: 50rpx;
+  font-size: 60rpx;
+}
+.text-contianer.data-v-29f45eb2 {
+  width: 40vw;
+  height: 20vh;
+  margin: 30rpx;
+  border-radius: 30rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000000;
+  background-color: #ffffff;
+}
+.image-contianer.data-v-29f45eb2 {
+  width: 30%;
+  height: 40%;
+}
+.image-contianer ._img.data-v-29f45eb2 {
+  width: 10vw;
+  height: 5vh;
+}
+.report-title.data-v-29f45eb2 {
+  font-size: 45rpx;
+  text-align: center;
+  padding: 15u;
+}
+

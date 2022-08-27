@@ -17,4 +17,5 @@
 	@import './colorui/main.css';
 	@import './colorui/icon.css';
     @import "@/uni_modules/uview-ui/index.scss";
+	@import '@/static/icon/iconfont.css';
 </style>

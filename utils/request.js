@@ -3,7 +3,9 @@ module.exports = (vm) => {
     // 初始化请求配置
     uni.$u.http.setConfig((config) => {
         /* config 为默认全局配置*/
-        config.baseURL = 'http://47.98.120.130:8080'; /* 根域名 */
+		// https://www.aikeyunkang.top:8081
+		// http://47.98.120.130:8080
+        config.baseURL = 'https://www.aikeyunkang.top:8081'; /* 根域名 */
         return config
     })
 	

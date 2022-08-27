@@ -3,8 +3,8 @@
         
 
 
-       <circle-component :progress_txt="stepPercent">
-       </circle-component>
+     <!--  <circle-component :progress_txt="stepPercent">
+       </circle-component> -->
       
     
        
@@ -17,7 +17,7 @@
            </view>
            
            <view class="border text-contianer">
-               <view class="flex flex-direction align-center">
+               <view class="flex flex-direction align-center" @click="goHealthReport">
                    <u-icon name="man-add" color="white" size="38"></u-icon>
                    <text class="font-max margin-top-sm">健康汇报</text>
                </view>
@@ -48,6 +48,9 @@
             goHealthAssess() {
                 this.$u.route('/pages/state/healthAssess')
             },
+			goHealthReport(){
+				this.$u.route('/pages/state/healthReport')
+			}
            
         }
     }
