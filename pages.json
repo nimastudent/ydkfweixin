@@ -8,7 +8,6 @@
                 "enablePullDownRefresh": false,
                 "navigationStyle": "custom"
             }
-        
         },
         {
             "path": "pages/state/state",

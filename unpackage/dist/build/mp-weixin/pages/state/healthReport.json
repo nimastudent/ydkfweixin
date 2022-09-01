@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "健康汇报",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-modal": "/uni_modules/uview-ui/components/u-modal/u-modal",
+    "u--input": "/uni_modules/uview-ui/components/u--input/u--input"
+  }
+}

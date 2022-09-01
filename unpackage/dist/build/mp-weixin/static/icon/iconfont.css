@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3518891 */
+  src: url('~@/static/icon/iconfont.woff2?t=1657876764982') format('woff2'),
+       url('~@/static/icon/iconfont.woff?t=1657876764982') format('woff'),
+       url('~@/static/icon/iconfont.ttf?t=1657876764982') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-vip:before {
+  content: "\e773";
+}
+
+.icon-medical-personnel-doctor:before {
+  content: "\e69f";
+}
+

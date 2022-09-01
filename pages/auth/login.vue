@@ -30,7 +30,7 @@
             }
         },
 		onLoad() {
-			this.normalLogin()
+			// this.normalLogin()
 		},
         methods: {
             submit() {
@@ -107,7 +107,7 @@
 				})
 			},
 			normalLogin(){
-				let obj = {telephone:"101",password:"123456"}
+				let obj = {telephone:"18610101010",password:"123456"}
 				login(obj).then(res => {
 					uni.setStorageSync('token', res['JSESSIONID']);
 					uni.switchTab({

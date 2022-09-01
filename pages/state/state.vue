@@ -29,6 +29,7 @@
 </template>
 
 <script>
+	import {postUserCode,login}  from '../../api/auth.js'
     import circleComponent from '../../components/circleComponent.vue'
     export default {
         components:{
@@ -40,9 +41,7 @@
             };
         },
         mounted() {
-            this.drawProgressbg();
-            this.drawCircle(this.progress_txt); //参数为1-100
-            this.drawLine();
+			// this.normalLogin()
         },
         methods: {
             goHealthAssess() {
@@ -50,6 +49,13 @@
             },
 			goHealthReport(){
 				this.$u.route('/pages/state/healthReport')
+			},
+			async normalLogin(){
+				let obj = {telephone:"101",password:"123456"}
+				const res = await login(obj)
+				if(res) {
+					uni.setStorageSync('token', res['JSESSIONID']);
+				}
 			}
            
         }

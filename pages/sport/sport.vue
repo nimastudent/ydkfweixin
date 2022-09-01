@@ -2,16 +2,16 @@
 	<view>
 		<view class="">
 			<u-loading-page :loading="loadingPage"></u-loading-page>
-			<view class="">
-				<view class="color-1129 text-bold margin-sm type-text" v-for="(item,index) in typeList" :key="index">
-					<view class="margin-bottom-sm ">
+				<view class="color-1129 text-bold margin-sm" v-for="(item,index) in typeList" :key="index">
+					<view class="type-text">
 						{{item}}
 					</view>
-					<view class="grid" v-if="item === '有氧运动'">
+					
+					<view class="picitem" v-if="item === '有氧运动'">
 
 
 						<view v-for="(item,index) in youyangList" :key="index" @click="handleSportClick(item)">
-							<!-- {{item.name}} -->
+							
 							<view class="abs-contianer" v-if="item.picture">
 								<image class="sport-image" :src="item.picture" mode=""></image>
 								<view class="sport-span">{{item.name}}</view>
@@ -37,7 +37,7 @@
 
 						<view :class="['text-xl','text-center','sportText']" hover-class="sportTextClick"
 							v-for="(item,index) in rourenList" :key="index" @click="handleSportClick(item)">
-							<view class="type-text">
+							<view class="font-34">
 								{{item.name}}
 							</view>
 						</view>
@@ -55,10 +55,9 @@
 							{{item.name}}
 						</view>
 					</view>
-					<u-divider></u-divider>
+					
 
 				</view>
-			</view>
 
 		</view>
 	</view>
@@ -86,7 +85,6 @@
 			// 获取运动类型
 			async getTypeList() {
 				const res = await getSportType()
-				console.log(res)
 				if (res) {
 					this.typeList = res['type']
 				}
@@ -112,6 +110,8 @@
 					}
 				}
 			},
+			
+			
 			// 处理单击运动
 			handleSportClick(item) {
 				console.log(item)
@@ -124,44 +124,51 @@
 </script>
 
 <style lang="scss" scoped>
-	.sportText {
-		width: 80vw;
-		height: 30vh;
-		line-height: 30vh;
-		color: #F0F0F0;
-		background-color: #007aff;
+	
+	.type-text{
+		font-size: 56upx;
+		letter-spacing: 6upx;
+		margin-bottom: 20upx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		}
+		
+	.type-text::after{
+		width: 40vw;
+		   content: " ";
+		      position: absolute;
+		      bottom: -25%;
+		      height: 8upx;
+		      border-top: 8upx solid #5A8BFF;
+		      -webkit-transform-origin: 0 0;
+		      transform-origin: 0 0;
+		      -webkit-transform: scaleY(0.5);
+		      transform: scaleY(0.5);
+	}
+	
+	.picitem{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
 		border-radius: 20upx;
 	}
-
-	.sportTextClick {
-		color: #000000;
-		background-color: #f0f0f0;
-	}
-
-	.type-text {
-		font-size: 56upx;
-	}
-
-	.abs-contianer {
-		position: relative;
-	}
+	
 
 	.sport-image {
-		width: 80vw;
-		height: 30vh;
-		border: 1px solid #ddd;
-		border-radius: 4px;
+		width: 90vw;
+		height: 20vh;
 		padding: 5px;
 	}
-
-	.sport-span {
+	
+	.abs-contianer{
+		position: relative;
+	}
+	
+	.sport-span{
 		position: absolute;
-		color: white;
-		top: 35%;
-		left: 35%;
 	}
 
-	.finished {
-		background-color: #555555;
-	}
 </style>

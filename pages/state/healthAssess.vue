@@ -5,41 +5,6 @@
 		<view>
 			<u-collapse>
 
-				<!-- 测试开始======================================== -->
-				<!-- <u-collapse-item title="身体指标" name="Docs guide">
-					<text slot="title" class="title-style">身体指标</text>
-					<u-cell-group>
-						<u-cell title="身高(cm)">180</u-cell>
-						<u-cell title="体重(kg)">
-							<view class="flex" slot="value">
-
-								<text class="margin-left-sm">65</text>
-							</view>
-						</u-cell>
-
-						<u-cell title="BMI">
-							<view class="flex " slot="value">
-								<u-tag text="正常" plain size="mini" type="success">
-								</u-tag>
-								<text class="margin-left-sm ">20.1</text>
-							</view>
-						</u-cell>
-
-						<u-cell title="腰围(cm)">
-							<view class="flex " slot="value">
-								<text class="margin-left-sm">78</text>
-							</view>
-						</u-cell>
-
-						<u-cell title="肌力汇总">
-							<view class="flex " slot="value">
-								<button type="default" size="mini" @click="handleSelectImg">查看图片</button>
-							</view>
-						</u-cell>
-					</u-cell-group>
-
-				</u-collapse-item> -->
-				<!-- 测试结束======================================================= -->
 
 				<u-collapse-item v-for="(item,index) in typeList" :key="index" :title="item['title']">
 
