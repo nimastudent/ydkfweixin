@@ -44,6 +44,7 @@
 		data() {
 			return {
 				modalShow: false,
+				value:''
 			};
 		},
 		methods: {
@@ -96,7 +97,7 @@
 .report-title{
 	font-size: 45upx;
 	text-align: center;
-	padding: 15u
+	padding: 15upx;
 }
 	
 </style>

@@ -4,22 +4,27 @@
 			<u-loading-page :loading="loadingPage"></u-loading-page>
 				<view class="color-1129 text-bold margin-sm" v-for="(item,index) in typeList" :key="index">
 					<view class="type-text">
-						{{item}}
+						{{item.actionType}}
 					</view>
 					
-					<view class="picitem" v-if="item === '有氧运动'">
+					<view class="picitem" >
 
 
-						<view v-for="(item,index) in youyangList" :key="index" @click="handleSportClick(item)">
+						<view v-for="(item,index) in item.children" :key="index" @click="handleSportClick(item)">
 							
 							<view class="abs-contianer" v-if="item.picture">
+								<view class="sport-span">{{item.actionName}}</view>
 								<image class="sport-image" :src="item.picture" mode=""></image>
-								<view class="sport-span">{{item.name}}</view>
+							</view>
+							
+							<view class="abs-contianer" v-else-if="!item.picture">
+								<view class="sport-span">{{item.actionName}}</view>
+								<image class="sport-image" src="../../static/staeIcon/taiji.jpg" mode=""></image>
 							</view>
 
 							<!-- 没有图片的显示 -->
 
-							<view v-else-if="item.picture === null" :class="['text-xl','text-center','sportText']"
+							<!-- <view v-else-if="item.picture === null" :class="['text-xl','text-center','sportText']"
 								hover-class="sportTextClick">
 								<text class="font-max">{{item.name}}</text>
 							</view>
@@ -27,35 +32,13 @@
 							<view v-else :class="['text-xl','text-center','sportText','finished']">
 								<text class="font-max">已完成
 								</text>
-							</view>
+							</view> -->
 
 
 						</view>
 					</view>
 
-					<view class="grid" v-if="item === '柔韧训练'">
 
-						<view :class="['text-xl','text-center','sportText']" hover-class="sportTextClick"
-							v-for="(item,index) in rourenList" :key="index" @click="handleSportClick(item)">
-							<view class="font-34">
-								{{item.name}}
-							</view>
-						</view>
-
-						<view :class="['text-xl','text-center','sportText','finished']">
-							<text class="font-max">已完成
-							</text>
-						</view>
-					</view>
-
-					<view class="grid" v-if="item === '抗阻训练'">
-
-						<view :class="['text-xl','text-center','sportText']" hover-class="sportTextClick"
-							v-for="(item,index) in kangzuList" :key="index" @click="handleSportClick(item)">
-							{{item.name}}
-						</view>
-					</view>
-					
 
 				</view>
 
@@ -65,8 +48,7 @@
 
 <script>
 	import {
-		getSportType,
-		gerNameByType
+		getAllSportData
 	} from '../../api/sport.js'
 	export default {
 		data() {
@@ -78,45 +60,27 @@
 				loadingPage: true
 			};
 		},
-		onLoad() {
+		onLoad(e) {
+			console.log(e);
 			this.getTypeList()
 		},
 		methods: {
 			// 获取运动类型
 			async getTypeList() {
-				const res = await getSportType()
-				if (res) {
-					this.typeList = res['type']
-				}
-				for (let item in this.typeList) {
-					this.getName(this.typeList[item])
-				}
-				this.loadingPage = false
-			},
-			async getName(type) {
-				const res = await gerNameByType({
-					params: {
-						type
-					}
-				})
-				if (res) {
-					console.log(res)
-					if (type === '有氧运动') {
-						this.youyangList = res.name
-					} else if (type === '柔韧训练') {
-						this.rourenList = res.name
-					} else if (type === '抗阻训练') {
-						this.kangzuList = res.name
-					}
+				this.loadingPage = true
+				const res = await getAllSportData()
+				if(res){
+					
+					this.typeList = res
+					this.loadingPage = false
+					console.log(res);
 				}
 			},
-			
-			
 			// 处理单击运动
 			handleSportClick(item) {
 				console.log(item)
 				uni.navigateTo({
-					url: '/pages/sport/sprotDetail?item=' + item.name,
+					url: '/pages/sport/sprotDetail?item=' + item.actionName,
 				})
 			}
 		}
@@ -160,7 +124,7 @@
 	.sport-image {
 		width: 90vw;
 		height: 20vh;
-		padding: 5px;
+		border-radius: 16upx;
 	}
 	
 	.abs-contianer{
@@ -168,7 +132,14 @@
 	}
 	
 	.sport-span{
+		color: aliceblue;
+		font-size: 46upx;
+		letter-spacing: 8upx;
 		position: absolute;
+		z-index: 99;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
 	}
 
 </style>

@@ -25,7 +25,7 @@
 								{{item.sendText.time}}″
 							</view>
 						</view>
-						
+
 					</view>
 					<view class="msg-m msg-right" v-if="item.sendName != friendName">
 						<image class="user-img" src="../../../static/logo.png"></image>
@@ -54,6 +54,10 @@
 <script>
 	import dateTime from '@/utils/dateTime.js';
 	import submit from './submit.vue';
+	import {
+		getChatObj,
+		getChatById
+	} from '../../../api/chat.js'
 
 
 	//音频播放
@@ -63,7 +67,7 @@
 		data() {
 			return {
 				friendName: "xpq",
-				msg: [ {
+				msg: [{
 						"sendName": "゛时光い",
 						"receviceName": "xpq",
 						"sendText": {
@@ -206,10 +210,34 @@
 				this.scrollToView = 'msg' + (this.unshiftmsg.length - 1)
 			})
 		},
+		onLoad() {
+			this.fetchChatObj()
+			this.fetchChat()
+		},
 		components: {
 			submit,
 		},
 		methods: {
+			async fetchChatObj() {
+				const res = await getChatObj()
+				if (res) {
+					// 设置navgationTitle
+					uni.setNavigationBarTitle({
+						title: res[0].name
+					})
+					uni.setStorage({
+						key: 'toUid',
+						data: res[0].toUid
+					})
+				}
+			},
+			async fetchChat() {
+				const toUid = uni.getStorageSync('toUid')
+				const res = await getChatById(toUid)
+				if(res) {
+					console.log(res);
+				}
+			},
 			changeTime(date) {
 				return dateTime.dateTime1(date);
 			},
@@ -331,6 +359,7 @@
 				.message {
 					flex: none;
 					max-width: 480rpx;
+					margin: 0 6rpx;
 				}
 
 				.msg-text {

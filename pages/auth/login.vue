@@ -6,7 +6,7 @@
                 <view class="dianhua color-b2b">
                     输入电话号码登录
                 </view>
-                <button type="default" @click="routeChange">路由跳转</button>
+                <!-- <button type="default" @click="routeChange">路由跳转</button> -->
 
                 <button type="default" @click="submit" withCredentials="true">登录</button>
                 <button type="default" @click="getUserInfo" withCredentials="true">获取用户信息</button>

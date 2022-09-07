@@ -8,15 +8,18 @@
 				<!-- 文本框 -->
 				<!-- <textarea auto-height="true" class="chat-send btn" :class="{displaynone:isrecord}" @input="inputs"
 					@focus="focus" v-model="msg"></textarea> -->
- 
-			<!-- 	<u--textarea class="chat-send btn"  :class="{displaynone:isrecord}" v-model="msg" @input="inputs"
-					@focus="focus" autoHeight ></u--textarea> -->
+
+				<u--textarea class="chat-send btn" :class="{displaynone:isrecord}" :value="msg" @input="inputs"
+					:confirm-type="'done'" @focus="focus" autoHeight></u--textarea>
 				<view class="record btn" :class="{displaynone:!isrecord}" @touchstart="touchstart" @touchend="touchend"
 					@touchmove="touchmove">
 					按住说话
 				</view>
-				<view class="bt-img" @tap="more">
+				<view class="bt-img" @tap="more" v-show="!isTextSend">
 					<image src="../../../static/more.png"></image>
+				</view>
+				<view class="" v-show="isTextSend">
+					<button type="primary" size="mini">发送</button>
 				</view>
 			</view>
 			<!-- 更多 -->
@@ -33,7 +36,7 @@
 					<image src="../../../static/video.png"></image>
 					<view class="more-list-title">视频</view>
 				</view>
-				
+
 			</view>
 		</view>
 		<view class="voice-bg" :class="{displaynone:!voicebg}">
@@ -57,6 +60,7 @@
 				isrecord: false,
 				ismore: false,
 				voicebg: false,
+				isTextSend:false, // 文本发送按钮显示
 				pageY: 0,
 				msg: "",
 				// 直接引用地址可能出不来，需要用require
@@ -65,7 +69,7 @@
 				vlength: 0
 			};
 		},
-		
+
 		methods: {
 			//获取高度方法
 			getElementHeight() {
@@ -92,8 +96,8 @@
 			},
 			//文字发送
 			inputs(e) {
-				var chatm = e.detail.value;
-				var pos = chatm.indexOf('\n');
+				// var chatm = e.detail.value;
+				// var pos = chatm.indexOf('\n');
 				// 检索字符串没有数据，返回-1
 				// if (pos != -1 && chatm.length > 1) {
 				// this.$emit('inputs', this.msg);
@@ -102,9 +106,15 @@
 				// }, 0)
 				// }
 
-				if (pos != -1 && chatm.length > 1) {
-					// 0为表情和文字
-					this.send(this.msg, 0)
+				// if (pos != -1 && chatm.length > 1) {
+				// 	// 0为表情和文字
+				// 	this.send(this.msg, 0)
+				// }
+				console.log(e);
+				if(e.length > 0){
+					this.isTextSend = true
+				}else{
+					this.isTextSend = false
 				}
 
 			},

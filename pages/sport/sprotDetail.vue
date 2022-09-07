@@ -14,16 +14,16 @@
 		</view>
 
 		<view class="flex justify-center margin-top-sm">
-			<mp-html :content="content"></mp-html>
+			<mp-html :content="contentObj.actionContent"></mp-html>
 		</view>
 
 		<view class="">
-			<button type="primary" @click="finished">我已完成</button>
+			<button type="primary" @click="finished">我已完成(无需上传)</button>
 		</view>
 		<view class="margin-top-xl">
 
 			<text>用户反馈：</text>
-			<u--textarea v-model="pecent" placeholder="请输入内容" count></u--textarea>
+			<u--textarea v-model="pecent" placeholder="请输入内容" count :confirm-type="'done'"></u--textarea>
 		</view>
 
 
@@ -39,9 +39,9 @@
 			<button type="primary">提交</button>
 		</view>
 
-		<u-modal :show="modalInfo.show" :title="title" 
+		<u-modal :show="modalInfo.show"
 			:confirmText="modalInfo.confiromText" :cancelText="modalInfo.cancelText" :showCancelButton="true"
-			:buttonReverse="true" @confirm="handleModalCancle" @cancel="handleUpload">
+			:buttonReverse="true" @confirm="handleUpload" @cancel="handleModalCancle">
 			<text class="font-34">{{modalInfo.content}}</text>
 			</u-modal>
 	</view>
@@ -56,12 +56,9 @@
 		data() {
 			return {
 				name: '',
-				content: '<p data-we-video-p=\"true\"><video src=\"http://47.98.120.130:8080/api/upload/actionVideo/1648458430555.mp4\" controls=\"controls\" style=\"max-width:100%\"></video></p><p>视频测试</p><p></p>',
+				// content: '<p data-we-video-p=\"true\"><video src=\"http://47.98.120.130:8080/api/upload/actionVideo/1648458430555.mp4\" controls=\"controls\" style=\"max-width:100%\"></video></p><p>视频测试</p><p></p>',
 				contentObj: {
-					actionName: '健康跑',
-					tip: '跑的时候注意别扭到脚了',
-					doctorName: '甲医生',
-					date: '2022-03-17'
+				
 				},
 				pecent: '',
 				modalInfo: {
@@ -73,11 +70,11 @@
 			};
 		},
 		onLoad(e) {
-			console.log(e)
 			this.name = e.item
 			this.getChuFang()
 		},
 		methods: {
+			// 获取处方
 			async getChuFang() {
 				let params = {
 					name: this.name
@@ -89,6 +86,7 @@
 					this.getContent(res[0].id)
 				}
 			},
+			// 获取处方中的第一个
 			async getContent(id) {
 				const res = await getChuFangById({
 					params: {
@@ -96,6 +94,12 @@
 					}
 				})
 				this.contentObj = res
+				// 将小提示 拼接到content中
+				if(this.contentObj.tip){
+					// <p>小提示：${this.contentObj.tip}</p>
+					// <font size=\"4\"><b>拉伸注意</b></font>
+					this.contentObj.actionContent = `<font size=\"4\"><b>小提示：${this.contentObj.tip}</b></font>` + this.contentObj.actionContent
+				}
 			},
 			upload() {
 				this.modalInfo.show = true
@@ -116,7 +120,7 @@
 				console.log(res)
 			},
 			finished() {
-				uni.navigateBack({})
+				uni.navigateBack()
 			},
 			handleModalCancle() {
 				this.modalInfo.show = false

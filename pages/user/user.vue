@@ -4,11 +4,18 @@
 			<image class="logo-img" :src="login ? uerInfo.avatarUrl :avatarUrl"></image>
 			<view class="logo-title">
 				<!-- <text class="uer-name">Hi，{{login ? uerInfo.doctorName : '您未登录'}}</text> -->
-				<text class="uer-name">Hi，测试</text>
-				<text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text>
+				<!-- <view> {{userInfo.sex}}</view> -->
+				<text class="uer-name">Hi，{{userInfo.sex}}</text>
+				<!-- <text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text> -->
 			</view>
 		</view>
 		<view class="center-list">
+			<view class="center-list-item border-bottom" @click="goUserInfo">
+				<u-icon class="list-icon" name="account" color="#007aff" size="22"></u-icon>
+				<text class="list-text">个人信息</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+			
 			<view class="center-list-item border-bottom">
 				<!-- <text class="list-icon">&#xe60f;</text> -->
 				<span class="list-icon font-34 iconfont icon-vip"></span>
@@ -51,7 +58,7 @@
 			return {
 				login: false,
 				avatarUrl: "../../static/logo.png",
-				uerInfo: {}
+				userInfo: {}
 			}
 		},
 		onLoad() {
@@ -64,12 +71,25 @@
 				}
 			},
 			getInfo(){
-				getUserInfo().then(res => {
-					console.log(res)
-					if(res){
-						this.uerInfo = res
-					}
+				// const res = await getUserInfo()
+				// if(res){
+				// 	console.log(res);
+				// 	this.uerInfo = res
+				// 	uni.setStorage({
+				// 		key:'userInfo',
+				// 		data:res
+				// 	})
+				// }
+				this.$nextTick(() => {
+					uni.getStorage({
+						key:'userInfo',
+						success:(e) => {
+							this.userInfo = e.data
+							console.log(this.userInfo);
+						}
+					})
 				})
+				
 			},
 			goChat(){
 				uni.navigateTo({
