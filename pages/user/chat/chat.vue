@@ -8,7 +8,7 @@
 				<view class="chat-ls" v-for="(item,index) in unshiftmsg" :key="index" :id="'msg'+ index">
 					<view class="chat-time" v-if="item.createTime != ''">{{changeTime(item.createTime)}}</view>
 					<view class="msg-m msg-left" v-if="item.sendName ==  friendName">
-						<image class="user-img" src="../../../static/logo.png"></image>
+						<!-- <image class="user-img" src="../../../static/logo.png"></image> -->
 						<view class="message" v-if="item.TextType == 0">
 							<!-- 文字 -->
 							<view class="msg-text">{{item.sendText}}</view>
@@ -28,7 +28,7 @@
 
 					</view>
 					<view class="msg-m msg-right" v-if="item.sendName != friendName">
-						<image class="user-img" src="../../../static/logo.png"></image>
+						<!-- <image class="user-img" src="../../../static/logo.png"></image> -->
 						<view class="message" v-if="item.TextType == 0">
 							<view class="msg-text">{{item.sendText}}</view>
 						</view>

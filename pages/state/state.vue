@@ -16,7 +16,7 @@
 			</view>
 		</view>
 		<view class="walk-circle-contianer">
-			 <!-- <canvas class="canvas" canvas-id="canvas2"></canvas> -->
+			 <canvas class="canvas" canvas-id="canvas2"></canvas>
 		</view>
 	</view>
        
@@ -42,7 +42,7 @@
 
 <script>
 	import {postUserCode,login}  from '../../api/auth.js'
-	// import Gauge from "@/utils/circle.js";
+	import Gauge from "@/utils/circle.js";
     export default {
         components:{
         },
@@ -52,13 +52,13 @@
             };
         },
         mounted() {
-			// new Gauge({
-			//       canvasId: "canvas2",
-			//       value: 80,
-			//       lineWidth: 20,
-			//       progressColor: ["#007aff", "#007aff", "#007aff"],
-			//       valueColor: "#007aff",
-			//     });
+			new Gauge({
+			      canvasId: "canvas2",
+			      value: 80,
+			      lineWidth: 20,
+			      progressColor: ["#007aff", "#007aff", "#007aff"],
+			      valueColor: "#007aff",
+			    });
 				
         },
         methods: {
