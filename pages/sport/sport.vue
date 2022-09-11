@@ -11,37 +11,22 @@
 
 
 						<view v-for="(item,index) in item.children" :key="index" @click="handleSportClick(item)">
-							
-							<view class="abs-contianer" v-if="item.picture">
+							<view class="abs-contianer" v-if="item.picture" >
 								<view class="sport-span">{{item.actionName}}</view>
 								<image class="sport-image" :src="item.picture" mode=""></image>
 							</view>
-							
+							<!-- 没有图片的显示 -->
 							<view class="abs-contianer" v-else-if="!item.picture">
 								<view class="sport-span">{{item.actionName}}</view>
-								<image class="sport-image" src="../../static/staeIcon/taiji.jpg" mode=""></image>
+								<image class="sport-image" src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/taiji.jpg" mode=""></image>
 							</view>
-
-							<!-- 没有图片的显示 -->
-
-							<!-- <view v-else-if="item.picture === null" :class="['text-xl','text-center','sportText']"
-								hover-class="sportTextClick">
-								<text class="font-max">{{item.name}}</text>
-							</view>
-
-							<view v-else :class="['text-xl','text-center','sportText','finished']">
-								<text class="font-max">已完成
-								</text>
-							</view> -->
-
-
 						</view>
 					</view>
 
 
 
 				</view>
-
+		<u-toast ref="uToast" />
 		</view>
 	</view>
 </template>
@@ -79,9 +64,18 @@
 			// 处理单击运动
 			handleSportClick(item) {
 				console.log(item)
-				uni.navigateTo({
-					url: '/pages/sport/sprotDetail?item=' + item.actionName,
-				})
+				if(!item.isFinish){
+					uni.navigateTo({
+						url: '/pages/sport/sprotDetail?item=' + item.actionName,
+					})
+				}else{
+						this.$refs.uToast.show({
+										title: '您已完成！',
+										type: 'success',
+										
+									})
+				}
+				
 			}
 		}
 	}

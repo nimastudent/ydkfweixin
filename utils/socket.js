@@ -1,8 +1,10 @@
+import Vue from 'vue'
 class websocketUtil {
 	constructor(url, time) {
 		this.is_open_socket = false //避免重复连接
 		this.url = url //地址
 		this.data = null
+		this.isUpDate = false
 		//心跳检测
 		this.timeout= time //多少秒执行检测
 		this.heartbeatInterval= null //检测服务器端是否还活着
@@ -35,7 +37,10 @@ class websocketUtil {
 			// this.start();
 			// 注：只有连接正常打开中 ，才能正常收到消息
 			this.socketTask.onMessage((res) => {
-				console.log(res.data)
+				console.log('backgroun msg',res)
+				if(res.data.length > 20){
+					uni.$u.setIsUpdate('isUpdate', false)
+				}
 			});
 		})
 		// 监听连接失败，这里代码我注释掉的原因是因为如果服务器关闭后，和下面的onclose方法一起发起重连操作，这样会导致重复连接
@@ -53,12 +58,13 @@ class websocketUtil {
 	}
 	
 	//发送消息
-	send(value){
+	send(content,type){
 		// 注：只有连接正常打开中 ，才能正常成功发送消息
+		console.log(content);
 		this.socketTask.send({
-			data: value,
-			async success() {
-				console.log("消息发送成功");
+			data: content,
+			async success(res) {
+				
 			},
 		});
 	}

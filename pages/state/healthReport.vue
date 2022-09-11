@@ -5,7 +5,7 @@
 			<view class="border text-contianer" @click="xueTangReport">
 				<view class="flex flex-direction align-center">
 					<view class="image-contianer">
-						<img src="../../static/xueTang.png" alt="">
+						<img src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/xueTang.png" alt="">
 					</view>
 					<text class="font-max margin-top-sm">血糖上报</text>
 				</view>
@@ -14,7 +14,7 @@
 			<view class="border text-contianer">
 				<view class="flex flex-direction align-center" @click="xueYaReport">
 					<view class="image-contianer">
-						<img src="../../static/xueYa.png" alt="">
+						<img src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/xueYa.png" alt="">
 					</view>
 					<text class="font-max margin-top-sm">血压上报</text>
 				</view>

@@ -25,7 +25,7 @@ module.exports = (vm) => {
 		}
 		
 		if(config.url === 'weChat/login'){
-			return
+			// return
 		}else{
 			config.header['token'] = uni.getStorageSync('token')
 		}

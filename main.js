@@ -4,6 +4,24 @@ import uView from '@/uni_modules/uview-ui'
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.config.productionTip = false
+
+uni.$u.setIsUpdate = function(key,value){
+	if(key == 'isUpdate'){
+		 var newStorageEvent = document.createEvent('StorageEvent');
+		  const storage = {
+		       setItem: function (k, val) {
+		         uni.setStorageSync(k,val);
+		         // 初始化创建的事件
+		         newStorageEvent.initStorageEvent('setItem', false, false, k, null, val, null, null);
+		         // 派发对象
+		         window.dispatchEvent(newStorageEvent)
+		       }
+		
+	}
+	return storage.setItem(key, value);
+	}
+}
+
 App.mpType = 'app'
 Vue.use(uView)
 const app = new Vue({

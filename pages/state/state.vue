@@ -5,7 +5,7 @@
 	<view class="step-contianer">
 		<view class="walk-text-contianer">
 			<view class="walk-text-icon">
-				<image src="../../static/staeIcon/walking.png" mode=""></image>
+				<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/walking.png" mode=""></image>
 				<text>走步</text><text>（步）</text>
 			</view>
 			<view class="font-max walk-text-icon">
@@ -43,15 +43,19 @@
 <script>
 	import {postUserCode,login}  from '../../api/auth.js'
 	import Gauge from "@/utils/circle.js";
+	import Scoket from '../../utils/socket.js'
+	import {getUserInfo} from '../../api/auth.js'
     export default {
         components:{
         },
         data() {
             return {
-                stepPercent:90
+                stepPercent:90,
+				uerInfo:{}
             };
         },
         mounted() {
+			this.getInfo()
 			new Gauge({
 			      canvasId: "canvas2",
 			      value: 80,
@@ -68,7 +72,19 @@
 			goHealthReport(){
 				this.$u.route('/pages/state/healthReport')
 			},
-			
+			async getInfo(){
+				const res = await getUserInfo()
+				if(res){
+					this.uerInfo = res
+					uni.setStorage({
+						key:'userInfo',
+						data:res
+					})
+					console.log(this.uerInfo);
+					uni.$u.scoket = new Scoket(`wss://www.aikeyunkang.top:8081/websocket/server/patient/${this.uerInfo.id}`,10000)
+				}
+				}
+				
         }
     }
 </script>

@@ -65,7 +65,7 @@ class Gauge {
 	drawValueText() {
 		this.ctx.save()
 		this.ctx.fillStyle = this.valueColor
-		this.ctx.font = "34px serif"
+		this.ctx.font = "28px serif"
 		this.ctx.textAlign = 'center'
 		this.ctx.textBaseline = 'middle'
 		this.ctx.fillText(`${this.value}${this.unit}`, 0, 0)

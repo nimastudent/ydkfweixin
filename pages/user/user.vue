@@ -5,7 +5,7 @@
 			<view class="logo-title">
 				<!-- <text class="uer-name">Hi，{{login ? uerInfo.doctorName : '您未登录'}}</text> -->
 				<!-- <view> {{userInfo.sex}}</view> -->
-				<text class="uer-name">Hi，{{userInfo.sex}}</text>
+				<text class="uer-name">Hi，{{userInfo.sex ? userInfo.sex : '您还未登录！'}}</text>
 				<!-- <text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text> -->
 			</view>
 		</view>
@@ -16,8 +16,7 @@
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 			
-			<view class="center-list-item border-bottom">
-				<!-- <text class="list-icon">&#xe60f;</text> -->
+			<view class="center-list-item border-bottom" @click="goUserVIPInfo">
 				<span class="list-icon font-34 iconfont icon-vip"></span>
 				<text class="list-text">会员信息</text>
 				<text class="navigat-arrow">&#xe65e;</text>
@@ -95,6 +94,12 @@
 				uni.navigateTo({
 					url:'/pages/user/chat/chat'
 				})
+			},
+			goUserInfo(){
+				
+			},
+			goUserVIPInfo(){
+				
 			}
 		}
 	}

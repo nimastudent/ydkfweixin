@@ -2,38 +2,40 @@
 	<view>
 		<view class="submit">
 			<view class="submit-chat">
-				<view class="bt-img" @tap="records">
-					<image :src="toc"></image>
-				</view>
+				<!-- <view class="bt-img" @tap="records">
+					<image v-show="isrecord" src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/keyboard.png"></image>
+				<image v-show="!isrecord" src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/microphone.png"></image>
+				</view> -->
 				<!-- 文本框 -->
 				<!-- <textarea auto-height="true" class="chat-send btn" :class="{displaynone:isrecord}" @input="inputs"
 					@focus="focus" v-model="msg"></textarea> -->
 
 				<u--textarea class="chat-send btn" :class="{displaynone:isrecord}" :value="msg" @input="inputs"
-					:confirm-type="'done'" @focus="focus" autoHeight></u--textarea>
+					:confirm-type="'done'" @focus="focus" autoHeight>
+				</u--textarea>
 				<view class="record btn" :class="{displaynone:!isrecord}" @touchstart="touchstart" @touchend="touchend"
 					@touchmove="touchmove">
 					按住说话
 				</view>
 				<view class="bt-img" @tap="more" v-show="!isTextSend">
-					<image src="../../../static/more.png"></image>
+					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/more.png"></image>
 				</view>
 				<view class="" v-show="isTextSend">
-					<button type="primary" size="mini">发送</button>
+					<button type="primary" size="mini" @click="send(msg,'text')">发送</button>
 				</view>
 			</view>
 			<!-- 更多 -->
 			<view class="more" :class="{displaynone:!ismore}">
 				<view class="more-list" @tap="sendImg('album')">
-					<image src="../../../static/photo.png"></image>
+					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/photo.png"></image>
 					<view class="more-list-title">图片</view>
 				</view>
 				<view class="more-list" @tap="sendImg('camera')">
-					<image src="../../../static/camera.png"></image>
+					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/camera.png"></image>
 					<view class="more-list-title">拍照</view>
 				</view>
 				<view class="more-list">
-					<image src="../../../static/video.png"></image>
+					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/video.png"></image>
 					<view class="more-list-title">视频</view>
 				</view>
 
@@ -53,6 +55,7 @@
 <script>
 	// 录音
 	var recorderManager = uni.getRecorderManager();
+	import Scoket from '../../../utils/socket.js'
 
 	export default {
 		data() {
@@ -60,16 +63,14 @@
 				isrecord: false,
 				ismore: false,
 				voicebg: false,
-				isTextSend:false, // 文本发送按钮显示
+				isTextSend: false, // 文本发送按钮显示
 				pageY: 0,
 				msg: "",
-				// 直接引用地址可能出不来，需要用require
-				toc: require('../../../static/microphone.png'),
 				timer: '', //计时器
 				vlength: 0
 			};
 		},
-
+		
 		methods: {
 			//获取高度方法
 			getElementHeight() {
@@ -81,18 +82,11 @@
 			//切换音频
 			records() {
 				//切换的时候关闭其他界面
-				this.ismore = false
+				this.isrecord = !this.isrecord
 				//切换高度
 				setTimeout(() => {
-					this.getElementHeight();
-				}, 10)
-				if (this.isrecord) {
-					this.isrecord = false;
-					this.toc = require("../../../static/microphone.png");
-				} else {
-					this.isrecord = true;
-					this.toc = require("../../../static/keyboard.png");
-				}
+					this.getElementHeight()
+				},10)
 			},
 			//文字发送
 			inputs(e) {
@@ -110,18 +104,22 @@
 				// 	// 0为表情和文字
 				// 	this.send(this.msg, 0)
 				// }
-				console.log(e);
-				if(e.length > 0){
+				
+				this.msg = e
+				
+				if (e.length > 0) {
 					this.isTextSend = true
-				}else{
+				} else {
 					this.isTextSend = false
 				}
 
 			},
+
+
 			// 输入框聚焦
-			focus() {
+			focus(e) {
+				this.ismore = false
 				//关闭其他项
-				this.ismore = false;
 				setTimeout(() => {
 					this.getElementHeight()
 				}, 10)
@@ -131,29 +129,30 @@
 				this.ismore = !this.ismore;
 				//切换的时候关闭其他界面
 				this.isrecord = false;
-				// this.toc = require("../../../static/more.png");
 				setTimeout(() => {
 					this.getElementHeight();
 				}, 10)
 			},
 			//图片发送
 			sendImg(e) {
-				let count = 9;
-				if (e == 'album') {
-					count = 9;
-				} else {
-					count = 1;
-				}
+				let count = 1;
 				uni.chooseImage({
 					count: count, //默认9
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
 					sourceType: [e], //从相册选择
 					// success: function (res) { //用function的方式会找不到send方法
 					success: (res) => {
-						console.log(JSON.stringify(res.tempFilePaths));
-						const filePaths = res.tempFilePaths;
-						for (let i = 0; i < filePaths.length; i++) {
-							this.send(filePaths[i], 1)
+						console.log(res);
+						if (res.errMsg = "chooseImage:ok") {
+							const file = res.tempFilePaths[0];
+							
+							let data = {
+								message: file,
+								type: 'image'
+							}
+							this.$emit('inputs', data);
+						} else {
+							console.log((res.errMsg));
 						}
 					}
 				});
@@ -209,11 +208,11 @@
 			},
 			//发送
 			send(msg, type) {
-				let date = {
+				let data = {
 					message: msg,
 					type: type
 				}
-				this.$emit('inputs', date);
+				this.$emit('inputs', data);
 				setTimeout(() => {
 					this.msg = '';
 				}, 0)
