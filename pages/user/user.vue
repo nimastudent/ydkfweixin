@@ -1,11 +1,12 @@
 <template>
 	<view class="center">
-		<view class="logo" @click="goLogin" :hover-class="!login ? 'logo-hover' : ''">
-			<image class="logo-img" :src="login ? uerInfo.avatarUrl :avatarUrl"></image>
+		<view class="logo" hover-class="'logo-hover' ">
+			<image class="logo-img" :src="avatarUrl"></image>
 			<view class="logo-title">
 				<!-- <text class="uer-name">Hi，{{login ? uerInfo.doctorName : '您未登录'}}</text> -->
 				<!-- <view> {{userInfo.sex}}</view> -->
-				<text class="uer-name">Hi，{{userInfo.sex ? userInfo.sex : '您还未登录！'}}</text>
+				<text class="uer-name" v-if="userInfo.name">Hi，{{userInfo.name}}</text>
+				<text v-else class="uer-name"  style="color: #007aff;"  @click="handleGoLogin">点我登录</text>
 				<!-- <text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text> -->
 			</view>
 		</view>
@@ -15,8 +16,8 @@
 				<text class="list-text">个人信息</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-			
-			<view class="center-list-item border-bottom" @click="goUserVIPInfo">
+
+			<!-- <view class="center-list-item border-bottom" @click="goUserVIPInfo">
 				<span class="list-icon font-34 iconfont icon-vip"></span>
 				<text class="list-text">会员信息</text>
 				<text class="navigat-arrow">&#xe65e;</text>
@@ -25,15 +26,15 @@
 				<text class="list-icon">&#xe639;</text>
 				<text class="list-text">医师互动</text>
 				<text class="navigat-arrow">&#xe65e;</text>
-			</view>
+			</view> -->
 		</view>
 		<view class="center-list">
-			<!-- <view class="center-list-item border-bottom">
+			<view class="center-list-item border-bottom" @click="goHistroy">
 				<text class="list-icon">&#xe60b;</text>
-				<text class="list-text">帮助与反馈</text>
+				<text class="list-text">历史记录</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-			<view class="center-list-item">
+			<!-- <view class="center-list-item">
 				<text class="list-icon">&#xe65f;</text>
 				<text class="list-text">服务条款及隐私</text>
 				<text class="navigat-arrow">&#xe65e;</text>
@@ -46,30 +47,41 @@
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view> -->
 		</view>
-		
+
 	</view>
 </template>
 
 <script>
-	import {getUserInfo} from '../../api/auth.js'
+	import {
+		getUserInfo,
+		getUserIsLogin
+	} from '../../api/auth.js'
 	export default {
 		data() {
 			return {
 				login: false,
-				avatarUrl: "../../static/logo.png",
+				avatarUrl: "https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/aike.jpg",
 				userInfo: {}
 			}
 		},
 		onLoad() {
-			this.getInfo()
+			getUserIsLogin().then(res => {
+				console.log(res);
+				if(res.data){
+					this.getInfo()
+				}else{
+					this.userInfo = {}
+				}
+			})
 		},
 		methods: {
+			
 			goLogin() {
 				if (!this.login) {
 					console.log("点击前往登录")
 				}
 			},
-			getInfo(){
+			getInfo() {
 				// const res = await getUserInfo()
 				// if(res){
 				// 	console.log(res);
@@ -81,25 +93,49 @@
 				// }
 				this.$nextTick(() => {
 					uni.getStorage({
-						key:'userInfo',
-						success:(e) => {
+						key: 'userInfo',
+						success: (e) => {
 							this.userInfo = e.data
 							console.log(this.userInfo);
 						}
 					})
+					uni.getStorage({
+						key: "userAvatar",
+						success: (res) => {
+							console.log(res);
+							if (res.errMsg == "getStorage:ok") {
+								this.avatarUrl = res.data
+								console.log(this.avatarUrl);
+							}
+						}
+					})
 				})
-				
+
 			},
-			goChat(){
+			goChat() {
 				uni.navigateTo({
-					url:'/pages/user/chat/chat'
+					url: '/pages/user/chat/chat'
 				})
 			},
-			goUserInfo(){
-				
+			goUserInfo() {
+				uni.navigateTo({
+					url: '/pages/user/info/info'
+				})
 			},
-			goUserVIPInfo(){
-				
+			goUserVIPInfo() {
+				uni.navigateTo({
+					url: '/pages/user/vip'
+				})
+			},
+			goHistroy() {
+				uni.navigateTo({
+					url: '/pages/user/histroy/histroy'
+				})
+			},
+			handleGoLogin(){
+				uni.reLaunch({
+					url:'/pages/auth/login'
+				})
 			}
 		}
 	}

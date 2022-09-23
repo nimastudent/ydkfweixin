@@ -1,24 +1,29 @@
 <template>
 	<view>
-		<view class="submit">
+		<view class="submit" :style="{paddingBottom:submitHeight+'px'}">
 			<view class="submit-chat">
-				<!-- <view class="bt-img" @tap="records">
-					<image v-show="isrecord" src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/keyboard.png"></image>
-				<image v-show="!isrecord" src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/microphone.png"></image>
-				</view> -->
-				<!-- 文本框 -->
-				<!-- <textarea auto-height="true" class="chat-send btn" :class="{displaynone:isrecord}" @input="inputs"
-					@focus="focus" v-model="msg"></textarea> -->
+				<view class="bt-img" @tap="records">
+					<image v-show="isrecord"
+						src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/keyboard.png">
+					</image>
+					<image v-show="!isrecord"
+						src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/microphone.png">
+					</image>
+				</view>
 
-				<u--textarea class="chat-send btn" :class="{displaynone:isrecord}" :value="msg" @input="inputs"
+				<!-- 文本框  -->
+				<!-- <u--textarea class="chat-send btn" v-show="!isrecord" :value="msg" @input="inputs"
 					:confirm-type="'done'" @focus="focus" autoHeight>
-				</u--textarea>
+				</u--textarea> -->
+
+				<textarea  v-show="!isrecord" @blur="bindTextAreaBlur" @input="inputs" @focus="focus" :value="msg" auto-height :adjust-position='false' />
 				<view class="record btn" :class="{displaynone:!isrecord}" @touchstart="touchstart" @touchend="touchend"
 					@touchmove="touchmove">
 					按住说话
 				</view>
-				<view class="bt-img" @tap="more" v-show="!isTextSend">
-					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/more.png"></image>
+				<view class="bt-img" @tap="more" v-if="!isTextSend">
+					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/more.png">
+					</image>
 				</view>
 				<view class="" v-show="isTextSend">
 					<button type="primary" size="mini" @click="send(msg,'text')">发送</button>
@@ -27,15 +32,18 @@
 			<!-- 更多 -->
 			<view class="more" :class="{displaynone:!ismore}">
 				<view class="more-list" @tap="sendImg('album')">
-					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/photo.png"></image>
+					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/photo.png">
+					</image>
 					<view class="more-list-title">图片</view>
 				</view>
 				<view class="more-list" @tap="sendImg('camera')">
-					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/camera.png"></image>
+					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/camera.png">
+					</image>
 					<view class="more-list-title">拍照</view>
 				</view>
 				<view class="more-list">
-					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/video.png"></image>
+					<image src="https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/video.png">
+					</image>
 					<view class="more-list-title">视频</view>
 				</view>
 
@@ -67,10 +75,11 @@
 				pageY: 0,
 				msg: "",
 				timer: '', //计时器
-				vlength: 0
+				vlength: 0,
+				submitHeight:0 // 距离底部px
 			};
 		},
-		
+
 		methods: {
 			//获取高度方法
 			getElementHeight() {
@@ -86,7 +95,7 @@
 				//切换高度
 				setTimeout(() => {
 					this.getElementHeight()
-				},10)
+				}, 10)
 			},
 			//文字发送
 			inputs(e) {
@@ -104,9 +113,10 @@
 				// 	// 0为表情和文字
 				// 	this.send(this.msg, 0)
 				// }
-				
-				this.msg = e
-				
+
+				console.log(e);
+				this.msg = e.detail.value
+
 				if (e.length > 0) {
 					this.isTextSend = true
 				} else {
@@ -114,15 +124,22 @@
 				}
 
 			},
-
-
+			bindTextAreaBlur(e) {
+				console.log(e);
+				this.submitHeight = 0
+				setTimeout(() => {
+					this.$emit('heights',60)
+				},15)
+			},
 			// 输入框聚焦
 			focus(e) {
+				console.log(e);
 				this.ismore = false
 				//关闭其他项
+				this.submitHeight = e.target.height + 50
 				setTimeout(() => {
-					this.getElementHeight()
-				}, 10)
+					this.$emit('heights',e.target.height + 80)
+				},15)
 			},
 			//更多功能
 			more() {

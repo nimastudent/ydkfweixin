@@ -1,19 +1,19 @@
 {
 
     "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-        {
+	   {
+	       "path": "pages/state/state",
+	       "style": {
+	           "navigationBarTitleText": "健康",
+	           "enablePullDownRefresh": false
+	       }
+	   },
+	   {
             "path": "pages/auth/login",
             "style": {
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false,
                 "navigationStyle": "custom"
-            }
-        },
-        {
-            "path": "pages/state/state",
-            "style": {
-                "navigationBarTitleText": "健康",
-                "enablePullDownRefresh": false
             }
         },
         {
@@ -58,7 +58,7 @@
             "path" : "pages/sport/sprotDetail",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "运动推荐",
                 "enablePullDownRefresh": false
             }
             
@@ -90,6 +90,79 @@
 				"app-plus": {
 				    "softinputMode": "adjustPan"
 				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/auth/chioseDoc",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/auth/userInfo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/vip",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"navigationStyle":"custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/histroy/histroy",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "历史信息",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/food/foodDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "饮食推荐",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/histroy/histroyDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/food/notice",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "公告详细",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/info/info",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "个人信息",
+                "enablePullDownRefresh": false
             }
             
         }

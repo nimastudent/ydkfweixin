@@ -5,7 +5,7 @@
 		<u-loading-page :loading="loading"></u-loading-page>
 		<scroll-view class="chat" scroll-y="true" scroll-with-animation="true" :scroll-into-view="scrollToView">
 			<view class="chat-main" :style="{paddingBottom:inputh+'px'}">
-				<view class="chat-ls" v-for="(item,index) in msg" :key="index" :id="'msg'+ index">
+				<view class="chat-ls" v-for="(item,index) in sliceMsg" :key="index" :id="'msg'+ index">
 					<view class="chat-time" v-if="item.createTime != ''">{{changeTime(item.time)}}</view>
 					<view class="msg-m msg-left" v-if="!item.self">
 						<image class="user-img" :src="item.avator"></image>
@@ -74,6 +74,7 @@
 		data() {
 			return {
 				msg: [],
+				sliceMsg:[],
 				// 反转数据接收
 				unshiftmsg: [],
 				imgMsg: [],
@@ -87,6 +88,7 @@
 				count:0
 			}
 		},
+		
 		onShow() {
 			// 数组倒叙 主要是应对后端传过来的数据
 			for (var i = 0; i < this.msg.length; i++) {
@@ -111,16 +113,12 @@
 		},
 		onLoad() {
 			this.fetchChatObj()
-			this.fetchChat()
 			uni.getStorage({
 				key: 'userInfo',
 				success: (res) => {
 					this.userInfo = res.data
 				}
 			})
-		},
-		mounted() {
-			window.addEventListener('setItem', this.test)
 		},
 		methods: {
 			test() {
@@ -135,15 +133,15 @@
 					uni.setNavigationBarTitle({
 						title: res[0].name
 					})
-
 					this.toUid = res[0].toUid
+					this.fetchChat()
 				}
 			},
 			async fetchChat() {
-				const toUid = uni.getStorageSync('toUid')
-				const res = await getChatById(toUid)
+				const res = await getChatById(this.toUid)
 				if (res) {
 					this.msg = res;
+					this.sliceMsg = res.slice(res.length-11,res.length)
 					this.loading = false;
 					this.goBottom();
 				}

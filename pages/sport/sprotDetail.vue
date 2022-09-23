@@ -1,9 +1,9 @@
 <template>
 	<view class="main-contianer margin-lg">
-		<view class="title-contianer font-max color-1129">
+		<u-loading-page :loading="pageLoading" loading-text="正在加载中..."></u-loading-page>
+		<view class="font-max color-1129">
 			{{contentObj.actionName}}
 		</view>
-
 		<view class="flex justify-between margin-sm">
 			<view class="">
 				所属医生：{{contentObj.doctorName}}
@@ -12,11 +12,9 @@
 				日期：{{contentObj.date}}
 			</view>
 		</view>
-
 		<view class="flex justify-center margin-top-sm">
 			<mp-html :content="contentObj.actionContent"></mp-html>
 		</view>
-
 		<view class="">
 			<button type="primary" @click="finished">我已完成(无需上传)</button>
 			<button style="margin-top:20upx" type="primary" v-show="!needReport"
@@ -26,38 +24,19 @@
 		</view>
 		<view class="report-contianer" v-show="needReport">
 			<view class="margin-top-xl">
-
 				<text>用户反馈：</text>
-				<u--textarea v-model="pecent" placeholder="请输入内容" count :confirm-type="'done'"></u--textarea>
+				<u--textarea v-model="pecent" placeholder="请先输入内容,再进行文件上传" count :confirm-type="'done'"></u--textarea>
 			</view>
-
-			<!-- <view class="file-contianer" v-for="(item,index) in fileList" :key="index">
-				<img src="../../static/file.png" alt="">
-				<text>{{item}}</text>
-			</view> -->
-
-
-
-			<view class="">
-				<l-file ref="lFile" @up-success="upSuccess"></l-file>
-			</view>
-
 			<view class="margin-top-sm">
-				<button type="default" @click="upload">视频/图片上传</button>
+				<u-divider text="视频/图片上传" :textSize="24"></u-divider>
+				<u-upload :disabled="pecent.length > 0 ? false : true" :fileList="fileList4" @beforeRead="beforeRead"
+					@afterRead="afterRead" @delete="deletePic" name="4" :maxCount="9" multiple accept="image"
+					:previewFullImage="true">
+				</u-upload>
+				<button type="primary" @click="handleSubmit">点我上传</button>
 			</view>
-			<!-- 
-			<view class="margin-top-sm">
-				<button type="primary" @click="handleSubmit">提交</button>
-			</view> -->
 		</view>
-
-
-		<u-modal :show="modalInfo.show" :confirmText="modalInfo.confiromText" :cancelText="modalInfo.cancelText"
-			:showCancelButton="true" :buttonReverse="true" @confirm="handleModalCancle" @cancel="handleUpload">
-			<text class="font-34">{{modalInfo.content}}</text>
-		</u-modal>
-
-		<u-toast ref="uToast" />
+		<u-notify ref="uNotify" message="Hi uView"></u-notify>
 	</view>
 </template>
 
@@ -66,14 +45,11 @@
 		getChuFangByName,
 		getChuFangById,
 		reportSport,
-		getHistroy,
-		getHistroyById
 	} from '../../api/sport.js'
 	export default {
 		data() {
 			return {
 				name: '',
-				uId: 0,  //用户id
 				contentObj: {},
 				pecent: '',
 				modalInfo: {
@@ -83,31 +59,13 @@
 					cancelText: '不填写'
 				},
 				needReport: false, //用户是否需要反馈
-				fileList: ['pc测试'], //用于用户上传成功回显
-				options: [{
-					text: '删除',
-					style: {
-						backgroundColor: '#dd524d'
-					}
-				}]
+				fileList4: [],
+				pageLoading:true
 			};
 		},
 		onLoad(e) {
 			this.name = e.item
-
-			uni.getStorage({
-				key: 'userInfo',
-				success: (res) => {
-					this.uId = res.data.id
-				}
-			})
 			this.getChuFang()
-			// getHistroy().then(res => {
-			// 	console.log(res);
-			// })
-			getHistroyById(20).then(res => {
-				console.log(res);
-			})
 		},
 		methods: {
 			// 获取处方
@@ -137,50 +95,144 @@
 					this.contentObj.actionContent = `<font size=\"4\"><b>小提示：${this.contentObj.tip}</b></font>` + this
 						.contentObj.actionContent
 				}
+				this.pageLoading = false
 			},
-			upload() {
-				if (this.pecent.length < 1) {
-					this.modalInfo.show = true
-				} else {
-					this.handleUpload()
-				}
 
-			},
-			// 处理文件上传
-			handleUpload() {
-				this.modalInfo.show = false
-				this.$refs.lFile.upload({
-					//替换为你的上传接口地址
-					url: 'https://www.aikeyunkang.top:8081/action/report',
-					// 服务端接收附件的key
-					name: 'files',
-					//根据你接口需求自定义 (优先不传content-type,安卓端无法收到参数再传)
-					header: {},
-					aid: this.uId,
-					content: this.pecent
+			async finished() {
+				const res = await reportSport({aid:this.contentObj.aid})
+				this.$nextTick(() => {
+					uni.$emit('updateActionTypeList')
+					uni.switchTab({
+						url: '/pages/sport/sport'
+					})
 				})
 			},
-			upSuccess(res) {
-				console.log(res);
-				if (res.data.success) {
-					this.$refs.uToast.show({
-						title: '文件上传成功!',
-						type: 'success',
+			// 删除图片
+			deletePic(event) {
+				this[`fileList${event.name}`].splice(event.index, 1)
+			},
+			// 新增图片
+			async afterRead(event) {
+
+				// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+				let lists = [].concat(event.file)
+				let fileListLen = this[`fileList${event.name}`].length
+				lists.map((item) => {
+					this[`fileList${event.name}`].push({
+						...item,
+						status: 'uploading',
+						message: '上传中'
 					})
-					this.fileList.push(res.fileName)
+				})
+				console.log("lists", lists);
+				for (let i = 0; i < lists.length; i++) {
+					const result = await this.uploadFilePromise(lists[i].url, lists[i].type)
+					let item = this[`fileList${event.name}`][fileListLen]
+					this[`fileList${event.name}`].splice(fileListLen, 1, Object.assign(item, {
+						status: 'success',
+						message: '',
+						url: result
+					}))
+					fileListLen++
 				}
 			},
-			async finished() {
-				console.log(this.contentObj);
-				const res = await reportSport({
-					aid: this.contentObj.aid
+			uploadFilePromise(url, type) {
+				
+				let subUrl = 'picture';
+				if(type.includes('video')){
+					subUrl = 'video'
+				}else{
+					subUrl = 'picture'
+				}
+				let myurl =
+					`https://www.aikeyunkang.top:8081/action/report/${subUrl}`
+				return new Promise((resolve, reject) => {
+					let a = uni.uploadFile({
+						url: myurl,
+						filePath: url,
+						name: 'file',
+						success: (res) => {
+							if(res){
+								const data = JSON.parse(res.data)
+								if (res.statusCode === 200) {
+									uni.showToast({
+										title: '上传成功',
+										duration: 1500
+									})
+								}
+								setTimeout(() => {
+									resolve(data.body)
+								}, 1000)
+							}else{
+								uni.showToast({
+									title:'出错了，请联系工作人员！',
+									icon:'error'
+								})
+							}
+							
+						}
+					});
+
 				})
-				console.log(res);
-				// uni.navigateBack()
 			},
-			handleModalCancle() {
-				this.modalInfo.show = false
-			},
+			
+			handleSubmit(){
+				console.log(this.fileList4);
+				// 获取文件数组
+				const fileList = this.fileList4
+				for(let i = 0; i < fileList.length ;i++){
+					if(fileList[i].status === 'uploading'){
+						uni.showToast({
+							title:'正在上传请稍候',
+							icon:'error',
+							duration:2000
+						})
+						return;
+					}
+				}
+				let count = 0;
+				let imgList = [] , video = '';
+				// 数组操作
+				fileList.forEach((item) => {
+					let index = item.url.lastIndexOf('/')
+					let name = item.url.slice(index+1,item.url.length)
+					if(item.type.includes('image')){
+						// 图片
+						imgList.push(name)
+					}else if(item.type.includes('video')){
+						// 视频
+						if(count == 0){
+							// 只上传一个视频
+							video = name;
+							count++;
+						}else{
+							uni.showToast({
+								title:'只能上传一个视频',
+								icon:'error',
+								duration:2000
+							})
+							return
+						}
+					}
+				})
+				// 传输数据
+				const data = {
+					aid:this.contentObj.aid,
+					content:this.pecent,
+					pictures:imgList,
+					video
+				}
+				// 上传数据
+				reportSport(data).then(res => {
+					if(res == null){
+						uni.$emit('updateActionTypeList')
+						uni.switchTab({
+							url: '/pages/sport/sport'
+						})
+					}
+				})
+				
+			}
 
 		}
 	}
@@ -203,5 +255,11 @@
 
 	.file-contianer text {
 		font-size: 30upx;
+	}
+
+	.radio-style {
+		display: flex;
+		justify-content: space-around;
+		margin: 20upx 0;
 	}
 </style>
