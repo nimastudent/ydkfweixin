@@ -54,7 +54,6 @@
 <script>
 	import {
 		getUserInfo,
-		getUserIsLogin
 	} from '../../api/auth.js'
 	export default {
 		data() {
@@ -65,14 +64,7 @@
 			}
 		},
 		onLoad() {
-			getUserIsLogin().then(res => {
-				console.log(res);
-				if(res.data){
-					this.getInfo()
-				}else{
-					this.userInfo = {}
-				}
-			})
+			
 		},
 		methods: {
 			

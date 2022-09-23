@@ -114,18 +114,18 @@
 			},
 			getHistroy() {},
 			fetchActionHistroy() {
-				getActionHistroyList().then(res => {
-					this.actionHistroyArr = res.reverse()
+				getActionHistroyList(1,10).then(res => {
+					this.actionHistroyArr = res.content.reverse()
 				})
 			},
 			fetchFoodHistroy() {
-				getFoodHistroyList().then(res => {
+				getFoodHistroyList(1,10).then(res => {
 					console.log('food', res);
-					this.foodHistroyArr = res
+					this.foodHistroyArr =  res.content
 				})
 			},
 			fetchDrugHistroy() {
-				getDrugHistroyList().then(res => {
+				getDrugHistroyList(1,10).then(res => {
 					console.log('drug', res);
 					this.drugHistroyArr = res.reverse()
 				})

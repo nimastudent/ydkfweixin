@@ -220,7 +220,7 @@
 					aid:this.contentObj.aid,
 					content:this.pecent,
 					pictures:imgList,
-					video
+					video: video === "" ? undefined : video
 				}
 				// 上传数据
 				reportSport(data).then(res => {

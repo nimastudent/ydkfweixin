@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<u-loading-page :loading="pageLoading" loading-text="正在加载中..."></u-loading-page>
 		<view class="sport" v-if="title === '运动历史'">
 			<view class="font-max color-1129 margin-lg">
 				{{contentObj.actionName}}
@@ -66,7 +67,8 @@
 			return {
 				title:'',
 				id: 0,
-				contentObj: {}
+				contentObj: {},
+				pageLoading:true
 			}
 		},
 		onLoad(e) {
@@ -87,6 +89,9 @@
 				} else {
 					this.fetchDrugHistroyById()
 				}
+				setTimeout(() => {
+					this.pageLoading = false
+				},1000)
 			},
 			fetchActionHistroyById() {
 				getActionHistroyById(this.id).then(res => {
@@ -121,7 +126,6 @@
 				data.forEach(item => {
 					resList.push(blobToURL(pngBase64ToBlob(item.picture)))
 				})
-
 
 				uni.previewImage({
 					urls: resList,

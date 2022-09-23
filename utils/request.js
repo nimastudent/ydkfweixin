@@ -1,5 +1,4 @@
 // 此vm参数为页面的实例，可以通过它引用vuex中的变量
-import {getUserIsLogin} from '@/api/auth.js'
 
 module.exports = (vm) => {
     // 初始化请求配置
@@ -18,30 +17,26 @@ module.exports = (vm) => {
 	    config.data = config.data || {}
 		// 根据custom参数中配置的是否需要token，添加对应的请求头
 		
-		console.log('config',config);
-		if(!uni.getStorageSync('isLogin')){
-			uni.showModal({
-				title:'您当前未登录，登录后查看更多功能！',
-				success(e){
-					if(e.confirm){
-						uni.reLaunch({
-							url:'/pages/auth/login'
-						})
-					}
-				}
-			})
-		}else{
-			if(config?.custom?.auth) {
-				// 可以在此通过vm引用vuex中的变量，具体值在vm.$store.state中
-				config.header.token = vm.$store.state.userInfo.token
-			}
-			if(config.url === 'weChat/login' || config.url === "isLogin"){
+			// uni.showModal({
+			// 	title:'您当前未登录，登录后查看更多功能！',
+			// 	success(e){
+			// 		if(e.confirm){
+			// 			uni.reLaunch({
+			// 				url:'/pages/auth/login'
+			// 			})
+			// 		}
+			// 	}
+			// })
+			// if(config?.custom?.auth) {
+			// 	// 可以在此通过vm引用vuex中的变量，具体值在vm.$store.state中
+			// 	config.header.token = vm.$store.state.userInfo.token
+			// }
+			if(config.url === 'weChat/login'){
 				// return
 			}else{
 				config.header['token'] = uni.getStorageSync('token')
 			}
-		}
-		
+		console.log('config',config);
 		return config
 	}, config => { // 可使用async await 做异步操作
 	    return Promise.reject(config)

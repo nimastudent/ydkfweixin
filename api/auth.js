@@ -1,7 +1,7 @@
 const http = uni.$u.http
 
 // 获取用户是否登录
-export const getUserIsLogin = () => http.get('isLogin')
+export const getTokenIsLate = () => http.get('isLate')
 
 // 微信登录
 export const weChatLogin = (data) => http.post('weChat/login',data)

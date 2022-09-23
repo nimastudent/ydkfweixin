@@ -194,7 +194,7 @@
 					fid: this.contentObj.id,
 					content: this.userContent,
 					pictures: imgList,
-					video
+					video:video === "" ? undefined : video
 				}
 				// 上传数据
 				reportFood(data).then(res => {

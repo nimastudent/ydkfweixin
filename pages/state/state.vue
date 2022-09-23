@@ -55,7 +55,8 @@
 	import Gauge from "@/utils/circle.js";
 	import Scoket from '../../utils/socket.js'
 	import {
-		getUserInfo
+		getUserInfo,
+		getTokenIsLate
 	} from '../../api/auth.js'
 	export default {
 		components: {},
@@ -69,6 +70,15 @@
 			};
 		},
 		onLoad() {
+			getTokenIsLate().then(res => {
+				if(res){
+					console.log("null");
+				}else{
+					//res 为空
+					
+					console.log(123);
+				}
+			})
 			this.getInfo()
 		},
 		methods: {
