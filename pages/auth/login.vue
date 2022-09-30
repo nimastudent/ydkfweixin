@@ -68,7 +68,6 @@
 					getCode(this.code).then(res => {
 						this.openId = res.openid
 						this.sessionKey = res.session_key
-
 						this.weChatGetUserStep()
 					})
 				},
@@ -152,7 +151,10 @@
 									url: '/pages/auth/chioseDoc'
 								})
 							}
-
+						}else{
+							uni.redirectTo({
+								url: '/pages/auth/chioseDoc'
+							})
 						}
 					})
 				}

@@ -1,8 +1,8 @@
 <script>
+	
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
-			uni.setStorageSync('isLogin',false)
 		},
 		onShow: function() {
 			console.log('App Show')
@@ -10,10 +10,7 @@
 		onHide: function() {
 			console.log('App Hide')
 		},
-		beforeUnmount() {
-			uni.clearStorage()
-			uni.clearStorageSync()
-		}
+		
 	}
 </script>
 

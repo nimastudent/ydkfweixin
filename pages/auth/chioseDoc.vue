@@ -173,19 +173,10 @@
 							})
 						})
 					}
-
-
 				}).catch(errors => {
 					uni.$u.toast('校验失败')
 				})
 
-				// console.log(this.userInfo);
-				// parseInt(this.userInfo.height)
-				// parseFloat(this.userInfo.weight)
-
-				// uni.switchTab({
-				// 	url: '/pages/state/state'
-				// })
 			},
 			maskClick(e) {
 				console.log(e);
