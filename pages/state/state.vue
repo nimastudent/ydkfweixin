@@ -39,7 +39,19 @@
 					<text class="font-max margin-top-sm">健康汇报</text>
 				</view>
 			</view>
+			
+			<view class="border text-contianer">
+				<view class="flex flex-direction align-center" @click="reportDisease">
+					<u-icon name="file-text" color="#007aff" size="38"></u-icon>
+					<!-- <u-loading-icon :show="reportIconShow"></u-loading-icon> -->
+					<text class="font-max margin-top-sm">疾病汇报</text>
+				</view>
+			</view>
 		</view>
+		
+		<DiseaseReport
+		 :modalShow.sync="diseaseModalShow"
+		 />
 	</view>
 </template>
 
@@ -53,8 +65,9 @@
 	} from '../../api/auth.js'
 	import Gauge from "@/utils/circle.js";
 	import Scoket from '../../utils/socket.js'
+	import DiseaseReport from '@/components/DiseaseReport/diseaseReport.vue'
 	export default {
-		components: {},
+		components: {DiseaseReport},
 		data() {
 			return {
 				step: 0,
@@ -62,7 +75,8 @@
 				pageLoading:false,
 				assIconShow:false,
 				reportIconShow:false,
-				sessionKey:'' //用于获取用户步数
+				sessionKey:'', //用于获取用户步数
+				diseaseModalShow:false  //疾病汇报对话框展示
 			};
 		},
 		onLoad() {
@@ -130,6 +144,10 @@
 					uni.$u.scoket = new Scoket(
 						`wss://www.aikeyunkang.top:8081/websocket/server/patient/${this.uerInfo.id}`, 10000)
 				}
+			},
+			//疾病汇报
+			reportDisease(){
+				this.diseaseModalShow = true
 			},
 			// step canvas
 			printStep(){
