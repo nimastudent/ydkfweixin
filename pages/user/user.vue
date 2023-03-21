@@ -3,11 +3,8 @@
 		<view class="logo" hover-class="'logo-hover' ">
 			<image class="logo-img" :src="avatarUrl"></image>
 			<view class="logo-title">
-				<!-- <text class="uer-name">Hi，{{login ? uerInfo.doctorName : '您未登录'}}</text> -->
-				<!-- <view> {{userInfo.sex}}</view> -->
 				<text class="uer-name" v-if="userInfo.name">Hi，{{userInfo.name}}</text>
-				<text v-else class="uer-name"  style="color: #007aff;"  @click="handleGoLogin">点我登录</text>
-				<!-- <text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text> -->
+				<text v-else class="uer-name" style="color: #007aff;" @click="handleGoLogin">点我登录</text>
 			</view>
 		</view>
 		<view class="center-list">
@@ -41,11 +38,8 @@
 			</view> -->
 		</view>
 		<view class="center-list">
-			<!-- <view class="center-list-item">
-				<text class="list-icon">&#xe614;</text>
-				<text class="list-text">关于应用</text>
-				<text class="navigat-arrow">&#xe65e;</text>
-			</view> -->
+
+			<button type="error" @click="handleLogout">点我退出</button>
 		</view>
 
 	</view>
@@ -54,25 +48,24 @@
 <script>
 	import {
 		getUserInfo,
+		userLogout
 	} from '../../api/auth.js'
 	export default {
 		data() {
 			return {
-				login: false,
 				avatarUrl: "https://www.aikeyunkang.top:8081/api/upload/static/uni-app-static-icon/aike.jpg",
 				userInfo: {}
 			}
 		},
 		onLoad() {
-			this.getInfo()
+
+			if (uni.getStorageSync('isLogin')) {
+				this.getInfo()
+			} else {
+				this.userInfo = {}
+			}
 		},
 		methods: {
-			
-			goLogin() {
-				if (!this.login) {
-					console.log("点击前往登录")
-				}
-			},
 			getInfo() {
 				// const res = await getUserInfo()
 				// if(res){
@@ -124,10 +117,22 @@
 					url: '/pages/user/histroy/histroy'
 				})
 			},
-			handleGoLogin(){
+			handleGoLogin() {
 				uni.reLaunch({
-					url:'/pages/auth/login'
+					url: '/pages/auth/login'
 				})
+			},
+			handleLogout() {
+				userLogout().then(res => {
+					console.log(res);
+					if (res === "logout success") {
+						uni.clearStorage()
+						uni.reLaunch({
+							url: '/pages/auth/login'
+						})
+					}
+				})
+
 			}
 		}
 	}

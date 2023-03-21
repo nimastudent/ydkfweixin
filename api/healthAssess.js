@@ -15,3 +15,6 @@ export const getXueTangHistroy = () => http.get('/health/mySweet')
 
 // 用户查看血压记录
 export const getXueYaHistroy = () => http.get('/health/myBlood')
+
+// 疾病汇报
+export const diseaseReportPost = (data) => http.post('/disease/report',data)
