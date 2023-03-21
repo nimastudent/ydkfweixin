@@ -64,7 +64,7 @@
 			}
 		},
 		onLoad() {
-			
+			this.getInfo()
 		},
 		methods: {
 			

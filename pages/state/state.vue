@@ -71,15 +71,16 @@
 		},
 		onLoad() {
 			getTokenIsLate().then(res => {
-				if(res){
-					console.log("null");
+                console.log(res);
+				if(res.isLate){
+                    uni.setStorageSync('isLogin',true)
+                    this.getInfo()
 				}else{
 					//res 为空
-					
-					console.log(123);
+					  uni.setStorageSync('isLogin',true)
+                      this.pageLoading = false
 				}
 			})
-			this.getInfo()
 		},
 		methods: {
 			goHealthAssess() {

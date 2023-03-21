@@ -42,7 +42,6 @@
 		getPhoneByCode,
 		getCode
 	} from '../../api/auth.js'
-
 	export default {
 		data() {
 			return {
@@ -58,6 +57,8 @@
 			}
 		},
 		onLoad() {
+            
+            
 			uni.setStorageSync('isLogin',true)
 			uni.login({
 				provider: 'weixin',
@@ -68,7 +69,6 @@
 					getCode(this.code).then(res => {
 						this.openId = res.openid
 						this.sessionKey = res.session_key
-
 						this.weChatGetUserStep()
 					})
 				},
@@ -91,7 +91,6 @@
 						})
 						this.nickName = res.userInfo.nickName
 						this.avatarUrl = res.userInfo.avatarUrl
-
 					},
 					fail: (err) => {
 						uni.showToast({
@@ -102,7 +101,6 @@
 					}
 				})
 			},
-
 			onGetPhoneNumber(e) {
 				if (e.target.code) {
 					getPhoneByCode(e.target.code).then(res => {
@@ -124,7 +122,6 @@
 						duration: 2000
 					})
 				}
-
 			},
 			//向后台发送请求
 			weChatLoginPost() {
@@ -149,10 +146,20 @@
 								})
 							} else {
 								uni.redirectTo({
-									url: '/pages/auth/chioseDoc'
+									url: '/pages/auth/chioseDoc',
+                                    params:{
+                                        phoneNumber: this.phoneNum,
+                                        nickName: this.nickName,
+                                        avatarUrl: this.avatarUrl,
+                                        openid: this.openId,
+                                        session_key: this.sessionKey
+                                    }
 								})
 							}
-
+						}else{
+							uni.redirectTo({
+								url: '/pages/auth/chioseDoc'
+							})
 						}
 					})
 				}
@@ -189,7 +196,6 @@
 				// 	// 	url: '/pages/state/state'
 				// 	// })
 				// })
-
 			},
 			// 获取微信步数
 			weChatGetUserStep() {
@@ -219,7 +225,6 @@
 						}
 					}
 				})
-
 			},
 			getWeRunData() {
 				wx.getWeRunData({
@@ -246,7 +251,6 @@
 		height: 100vh;
 		background-color: #0065FF;
 	}
-
 	.title-contianer {
 		height: 25vh;
 		line-height: 42upx;
@@ -257,7 +261,6 @@
 		justify-content: center;
 		align-items: center;
 	}
-
 	.withe-container {
 		position: absolute;
 		left: 0px;
@@ -267,29 +270,23 @@
 		border-radius: 0px 24px 0px 0px;
 		background: #FFFFFF;
 	}
-
 	.form-container {
 		margin: 100upx 50upx 100upx;
 	}
-
 	.denglu {
 		line-height: 42upx;
 		font-size: 58upx;
 	}
-
 	.dianhua {
 		margin-top: 30upx;
 		font-size: 32upx;
 	}
-
-
 	.u-avatar-wrap {
 		margin-top: 80rpx;
 		overflow: hidden;
 		margin-bottom: 80rpx;
 		text-align: center;
 	}
-
 	.u-avatar-demo {
 		width: 160rpx;
 		height: 160rpx;

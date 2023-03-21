@@ -67,7 +67,8 @@
 	import {
 		getDocInfo,
 		setDoc,
-		userRegister
+		userRegister,
+        login
 	} from '../../api/auth.js'
 	export default {
 		data() {
@@ -134,8 +135,8 @@
 				switchVal: false
 			};
 		},
-		onLoad() {
-			console.log(this.columns);
+		onLoad(e) {
+			console.log(e);
 			this.userInfo.phoneNumber = uni.getStorageSync('userPhone')
 			this.fetchDocInfo()
 		},
@@ -168,8 +169,8 @@
 					} else {
 						this.pageLoading = true
 						userRegister(this.userInfo).then(res => {
-							uni.switchTab({
-								url: '/pages/state/state'
+							uni.redirectTo({
+							    url:'/pages/auth/login'
 							})
 						})
 					}

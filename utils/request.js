@@ -17,16 +17,21 @@ module.exports = (vm) => {
 	    config.data = config.data || {}
 		// 根据custom参数中配置的是否需要token，添加对应的请求头
 		
-			// uni.showModal({
-			// 	title:'您当前未登录，登录后查看更多功能！',
-			// 	success(e){
-			// 		if(e.confirm){
-			// 			uni.reLaunch({
-			// 				url:'/pages/auth/login'
-			// 			})
-			// 		}
-			// 	}
-			// })
+       if (uni.getStorageSync('isLogin')){
+           
+       }else{
+           uni.showModal({
+           	title:'您当前未登录，登录后查看更多功能！',
+           	success(e){
+           		if(e.confirm){
+           			uni.reLaunch({
+           				url:'/pages/auth/login'
+           			})
+           		}
+           	}
+           })
+       }
+			
 			// if(config?.custom?.auth) {
 			// 	// 可以在此通过vm引用vuex中的变量，具体值在vm.$store.state中
 			// 	config.header.token = vm.$store.state.userInfo.token
